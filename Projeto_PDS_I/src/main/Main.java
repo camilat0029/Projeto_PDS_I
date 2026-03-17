@@ -1,9 +1,12 @@
 package main;
 
+import controller.ControllerProdutos;
 import controller.NavegadorTelas;
+import model.ProdutosDAO;
 import view.Cadastro;
 import view.CadastroProdutos;
 import view.Login;
+import view.ProdutosCRUD;
 import view.TelaPrincipal;
 
 public class Main {
@@ -14,17 +17,21 @@ public class Main {
 		Cadastro cadastro = new Cadastro();
 		CadastroProdutos cadProdutos = new CadastroProdutos();
 		Login login = new Login();
+		ProdutosCRUD produtosCRUD = new ProdutosCRUD();
+		ProdutosDAO produtosDAO = new ProdutosDAO();
 		
-		NavegadorTelas navegadorTelas = new NavegadorTelas(telaPrincipal);
+		NavegadorTelas navegadorTelas = new NavegadorTelas(telaPrincipal, produtosCRUD);
+		ControllerProdutos controllerProdutos = new ControllerProdutos(cadProdutos, produtosDAO, navegadorTelas, produtosCRUD);
 		
 		navegadorTelas.adicionarPainel("LOGIN", login);
 		navegadorTelas.adicionarPainel("CADASTRO", cadastro);
-		navegadorTelas.adicionarPainel("CADASTROPRODUTOD", cadProdutos);
+		navegadorTelas.adicionarPainel("CADASTROPRODUTOS", cadProdutos);
+		navegadorTelas.adicionarPainel("PRODUTOSCRUD", produtosCRUD);
 		
 		
 		
 		telaPrincipal.setVisible(true);
-		navegadorTelas.mudarTela("LOGIN");
+		navegadorTelas.mudarTela("PRODUTOSCRUD");
 		
 		
 	}

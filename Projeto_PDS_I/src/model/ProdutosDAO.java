@@ -63,16 +63,16 @@ public class ProdutosDAO {
 
             while (rset.next()) {
                 Produtos produto = new Produtos(0, sql, 0, sql, sql, 0, sql, sql, sql, sql);
-                produto.setCodigoBarras(rset.getInt("código de barras"));
+                produto.setCodigoBarras(rset.getInt("codigoBarras"));
                 produto.setNome(rset.getString("nome"));
                 produto.setValor(rset.getFloat("valor"));
                 produto.setMarca(rset.getString("marca"));
                 produto.setFornecedora(rset.getString("fornecedora"));
                 produto.setQuantidade(rset.getInt("quantidade"));
-                produto.setDescricao(rset.getString("descrição"));
+                produto.setDescricao(rset.getString("descricao"));
                 produto.setCor(rset.getString("cor"));
-                produto.setDataValidade(rset.getString("data de validade"));
-                produto.setDataFabricacao(rset.getString("data de fabricação"));
+                produto.setDataValidade(rset.getString("dataValidade"));
+                produto.setDataFabricacao(rset.getString("dataFabricacao"));
                 produtos.add(produto);
             }
         } catch (SQLException e) {

@@ -56,7 +56,7 @@ public class UsuarioDAO {
                 Usuario usuario = new Usuario(sql, sql, false);
                 usuario.setNome(rset.getString("nome"));
                 usuario.setCpf(rset.getString("cpf"));
-                usuario.setAdministrador(rset.getBoolean("administrador")); //Talvez seja assim
+                usuario.setAdministrador(rset.getBoolean("administrador")); 
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {

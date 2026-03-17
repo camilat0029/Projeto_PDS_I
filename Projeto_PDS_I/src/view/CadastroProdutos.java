@@ -7,6 +7,8 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -23,6 +25,9 @@ public class CadastroProdutos extends JPanel {
 	private JTextField tfFornecedora;
 	private JTextField tfDataFabr;
 	private JTextField tfDataVal;
+	private JTextArea taDescricao;
+	
+	private JButton btCadastrar; 
 
 	/**
 	 * Create the panel.
@@ -118,7 +123,7 @@ public class CadastroProdutos extends JPanel {
 		lbDescrição.setFont(new Font("Georgia", Font.PLAIN, 22));
 		add(lbDescrição, "cell 1 6");
 		
-		JTextArea taDescricao = new JTextArea();
+		taDescricao = new JTextArea();
 		taDescricao.setFont(new Font("Georgia", Font.PLAIN, 18));
 		add(taDescricao, "cell 2 6 3 1,growx");
 		
@@ -126,7 +131,7 @@ public class CadastroProdutos extends JPanel {
 		panel.setBackground(new Color(208, 223, 251));
 		add(panel, "cell 1 7 4 1,growx,aligny center");
 		
-		JButton btCadastrar = new JButton("Cadastrar");
+		btCadastrar = new JButton("Cadastrar");
 		btCadastrar.setBackground(new Color(188, 199, 243));
 		btCadastrar.setFont(new Font("Georgia", Font.PLAIN, 22));
 		panel.add(btCadastrar);
@@ -134,5 +139,88 @@ public class CadastroProdutos extends JPanel {
 		btCadastrar.setBorderPainted(false);
 
 	}
+	
+	public void cadastrarProdutos(ActionListener actionListener) {
+		this.btCadastrar.addActionListener(actionListener);
+	}
 
+	public String getTfNomeProduto() {
+		return tfNomeProduto.getText();
+	}
+
+	public void setTfNomeProduto(JTextField tfNomeProduto) {
+		this.tfNomeProduto = tfNomeProduto;
+	}
+
+	public String getTfValor() {
+		return tfValor.getText();
+	}
+
+	public void setTfValor(JTextField tfValor) {
+		this.tfValor = tfValor;
+	}
+
+	public String getTfQuantEstoque() {
+		return tfQuantEstoque.getText();
+	}
+
+	public void setTfQuantEstoque(JTextField tfQuantEstoque) {
+		this.tfQuantEstoque = tfQuantEstoque;
+	}
+
+	public String getTfMarca() {
+		return tfMarca.getText();
+	}
+
+	public void setTfMarca(JTextField tfMarca) {
+		this.tfMarca = tfMarca;
+	}
+
+	public String getTfCor() {
+		return tfCor.getText();
+	}
+
+	public void setTfCor(JTextField tfCor) {
+		this.tfCor = tfCor;
+	}
+
+	public String getTfCodBarras() {
+		return tfCodBarras.getText();
+	}
+
+	public void setTfCodBarras(JTextField tfCodBarras) {
+		this.tfCodBarras = tfCodBarras;
+	}
+
+	public String getTfFornecedora() {
+		return tfFornecedora.getText();
+	}
+
+	public void setTfFornecedora(JTextField tfFornecedora) {
+		this.tfFornecedora = tfFornecedora;
+	}
+
+	public String getTfDataFabr() {
+		return tfDataFabr.getText();
+	}
+
+	public void setTfDataFabr(JTextField tfDataFabr) {
+		this.tfDataFabr = tfDataFabr;
+	}
+
+	public String getTfDataVal() {
+		return tfDataVal.getText();
+	}
+
+	public void setTfDataVal(JTextField tfDataVal) {
+		this.tfDataVal = tfDataVal;
+	}
+
+	public String getTaDescricao() {
+		return taDescricao.getText();
+	}
+
+	public void setTaDescricao(JTextArea taDescricao) {
+		this.taDescricao = taDescricao;
+	}
 }
