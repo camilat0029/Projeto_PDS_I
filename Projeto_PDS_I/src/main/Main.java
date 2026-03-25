@@ -24,7 +24,7 @@ public class Main {
 		//try {
 	    //   UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 	    //} catch (Exception e) {
-	   //     e.printStackTrace();
+	    //     e.printStackTrace();
 	   // }
 		
 		UsuarioDAO usuarioDAO = new UsuarioDAO();

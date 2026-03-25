@@ -7,12 +7,16 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class Cadastro extends JPanel {
 
@@ -21,47 +25,54 @@ public class Cadastro extends JPanel {
 	private JTextField tfCPF;
 	private JComboBox cbFuncao;
 	private JButton btCadastrar;
+	private JLabel lbVoltar;
 
 	/**
 	 * Create the panel.
 	 */
 	public Cadastro() {
-		setBackground(new Color(208, 223, 251));
 		
-		setMinimumSize(new Dimension(900, 580));
-		setLayout(new MigLayout("insets 150 300 150 300, wrap 2, gap 30, fill", "[center]40[center]", "[][][][]"));
+		setBackground(new Color(208, 223, 251));
+		setMinimumSize(new Dimension(1020, 640)); 
+		setPreferredSize(new Dimension(1020, 640));
+		
+		setLayout(new MigLayout("wrap 2, gap 30, fill", "[50.00][grow][center]40[]40[50.00]40[grow,center]", "[][grow][][][][][][grow]"));
+		
+		lbVoltar = new JLabel("");
+		lbVoltar.setIcon(new ImageIcon(Cadastro.class.getResource("/imagens/Icone_Voltar.png")));
+		add(lbVoltar, "cell 0 0");
 		
 		JLabel lbNomeCadastro = new JLabel("Nome");
 		lbNomeCadastro.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbNomeCadastro, "cell 0 0");
+		add(lbNomeCadastro, "cell 2 2");
 		
 		tfNomeCadastro = new JTextField();
 		tfNomeCadastro.setFont(new Font("Georgia", Font.PLAIN, 20));
-		add(tfNomeCadastro, "cell 1 0,growx");
+		add(tfNomeCadastro, "cell 3 2,width 25%,height 38px");
 		tfNomeCadastro.setColumns(10);
 		
 		JLabel lbCPF = new JLabel("CPF");
 		lbCPF.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbCPF, "cell 0 1");
+		add(lbCPF, "cell 2 3");
 		
 		tfCPF = new JTextField();
 		tfCPF.setFont(new Font("Georgia", Font.PLAIN, 20));
-		add(tfCPF, "cell 1 1,growx");
+		add(tfCPF, "cell 3 3,width 25%,height 38px");
 		tfCPF.setColumns(10);
 		
 		JLabel lbFuncao = new JLabel("Função");
 		lbFuncao.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbFuncao, "cell 0 2");
+		add(lbFuncao, "cell 2 4");
 		
 		cbFuncao = new JComboBox();
 		cbFuncao.setBackground(new Color(255, 255, 255));
 		cbFuncao.setModel(new DefaultComboBoxModel(new String[] {"Administrador", "Cliente"}));
 		cbFuncao.setFont(new Font("Georgia", Font.PLAIN, 20));
-		add(cbFuncao, "cell 1 2");
+		add(cbFuncao, "cell 3 4,width 25%,height 38px");
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(208, 223, 251));
-		add(panel, "cell 0 3 2 1");
+		add(panel, "cell 2 6 2 1");
 	
 		btCadastrar = new JButton("Cadastrar");
 		btCadastrar.setBackground(new Color(188, 199, 243));
@@ -69,7 +80,30 @@ public class Cadastro extends JPanel {
 		panel.add(btCadastrar);
 		
 		btCadastrar.setBorderPainted(false);
+		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				
+				int novaFonte = Math.max(22, Math.min(35, getWidth() / 50));
+				
+				lbNomeCadastro.setFont(new Font("Georgia", Font.PLAIN, novaFonte));
+				lbCPF.setFont(new Font("Georgia", Font.PLAIN, novaFonte));
+				lbFuncao.setFont(new Font("Georgia", Font.PLAIN, novaFonte));
+				btCadastrar.setFont(new Font("Georgia", Font.PLAIN, novaFonte));
+				
+				int novaFonte2 = Math.max(22, Math.min(27, getWidth() / 50));
+				
+				tfCPF.setFont(new Font("Georgia", Font.PLAIN, novaFonte2));
+				tfNomeCadastro.setFont(new Font("Georgia", Font.PLAIN, novaFonte2));
+				cbFuncao.setFont(new Font("Georgia", Font.PLAIN, novaFonte2));
+			}
+		});
 
+	}
+	
+	public void voltar(MouseListener mouseListener) {
+		this.lbVoltar.addMouseListener(mouseListener);
 	}
 	
 	public void cadastrarUsuario(ActionListener actionListener) {

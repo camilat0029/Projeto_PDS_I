@@ -33,9 +33,11 @@ public class CadastroProdutos extends JPanel {
 	 * Create the panel.
 	 */
 	public CadastroProdutos() {
-		setBackground(new Color(208, 223, 251));
 		
-		setMinimumSize(new Dimension(900, 580));
+		setBackground(new Color(208, 223, 251));
+		setMinimumSize(new Dimension(1020, 640));
+		setPreferredSize(new Dimension(1020, 640));
+		
 		setLayout(new MigLayout("fill, gap 20", "[][grow][][][][]", "[][][][][][][][]"));
 		
 		JLabel lbNomeProduto = new JLabel("Nome do Produto");

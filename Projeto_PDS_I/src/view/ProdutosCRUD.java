@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 public class ProdutosCRUD extends JPanel {
 
@@ -29,11 +30,11 @@ public class ProdutosCRUD extends JPanel {
 	 * Create the panel.
 	 */
 	public ProdutosCRUD() {
+		
 		setBackground(new Color(208, 223, 251));
+		setPreferredSize(new Dimension(1020, 640));
+		setMinimumSize(new Dimension(1020, 640));
 		
-		setPreferredSize(new Dimension(900, 580));
-		
-		setMinimumSize(new Dimension(900, 580));
 		setLayout(new MigLayout("gap 40", "[grow][223,grow][223][223][grow]", "[70][][][][166.00][grow]"));
 		
 		JLabel lbProdutos = new JLabel("Estoque de Produtos");
@@ -64,15 +65,16 @@ public class ProdutosCRUD extends JPanel {
 		
 		tabelaProdutos = new JTable();
 		tabelaProdutos.setBackground(new Color(255, 255, 255));
-		tabelaProdutos.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 14));
+		tabelaProdutos.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 12));
 		tabelaProdutos.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Código-Barras", "Nome", "Valor", "Marca", "Fornecedora", "Quantidade", "Cor", "Data-Fabricacao", "Data-Validade"
+				"Código", "Nome", "Valor", "Marca", "Fornecedora", "Quantidade", "Cor", "Data-Fab", "Datat-Val"
 			}
 		));
 		scrollPane.setViewportView(tabelaProdutos);
+		
 
 	}
 	

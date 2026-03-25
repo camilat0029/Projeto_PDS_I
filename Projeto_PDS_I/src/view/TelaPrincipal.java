@@ -45,6 +45,7 @@ public class TelaPrincipal extends JFrame {
 		setContentPane(contentPane);
 
 		setMinimumSize(new Dimension(1020, 640)); 
+		setPreferredSize(new Dimension(1020, 640));
 		setLocationRelativeTo(null); 
 	}
 	

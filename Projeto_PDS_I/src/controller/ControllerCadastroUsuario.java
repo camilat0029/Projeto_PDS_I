@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -26,6 +28,14 @@ public class ControllerCadastroUsuario {
 		this.cadastro.cadastrarUsuario(e ->{
 			novoUsuario();
 			System.out.println("clique");
+		});
+		
+		this.cadastro.voltar(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				navegadorTelas.mudarTela("LOGIN");
+				limparCampos();
+			}
 		});
 		
 		

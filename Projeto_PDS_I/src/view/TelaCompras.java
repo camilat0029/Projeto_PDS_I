@@ -16,8 +16,9 @@ public class TelaCompras extends JPanel {
 	public TelaCompras() {
 		
 		setBackground(new Color(208, 223, 251));
-		setPreferredSize(new Dimension(900, 580));
-		setMinimumSize(new Dimension(900, 580));
+		setPreferredSize(new Dimension(1020, 640));
+		setMinimumSize(new Dimension(1020, 640));
+		
 		setLayout(new MigLayout("", "[]", "[]"));
 
 	}
