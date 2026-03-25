@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,6 +19,8 @@ public class Login extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField tfNome;
 	private JTextField tfCPF;
+	private JButton btCadastrese;
+	private JButton btEntrar;
 
 	/**
 	 * Create the panel.
@@ -50,7 +53,7 @@ public class Login extends JPanel {
 		panel.setBackground(new Color(208, 223, 251));
 		add(panel, "cell 1 3 3 1,alignx center");
 		
-		JButton btEntrar = new JButton("Entrar");
+		btEntrar = new JButton("Entrar");
 		btEntrar.setFont(new Font("Georgia", Font.PLAIN, 22));
 		btEntrar.setBackground(new Color(188, 199, 243));
 		add(btEntrar, "cell 1 3 3 1,alignx center");
@@ -63,17 +66,40 @@ public class Login extends JPanel {
 		panel_1.setBackground(new Color(208, 223, 251));
 		add(panel_1, "cell 3 4,alignx right");
 		
-		JButton btCadastrese = new JButton("Cadastre-Se");
+		btCadastrese = new JButton("Cadastre-Se");
 		btCadastrese.setBackground(new Color(188, 199, 243));
 		btCadastrese.setFont(new Font("Georgia", Font.PLAIN, 15));
 		panel_1.add(btCadastrese);
 		
 		btCadastrese.setBorderPainted(false);
-		
-		
-		
-		
+		btEntrar.setBorderPainted(false);	
 
 	}
+	
+	public void entrar(ActionListener actionListener) {
+		this.btEntrar.addActionListener(actionListener);
+	}
+	
+	public void cadastrarSe(ActionListener actionListener) {
+		this.btCadastrese.addActionListener(actionListener);
+	}
+
+	public JTextField getTfNome() {
+		return tfNome;
+	}
+
+	public void setTfNome(JTextField tfNome) {
+		this.tfNome = tfNome;
+	}
+
+	public JTextField getTfCPF() {
+		return tfCPF;
+	}
+
+	public void setTfCPF(JTextField tfCPF) {
+		this.tfCPF = tfCPF;
+	}
+	
+	
 
 }

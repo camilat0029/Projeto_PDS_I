@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -17,6 +19,8 @@ public class Cadastro extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField tfNomeCadastro;
 	private JTextField tfCPF;
+	private JComboBox cbFuncao;
+	private JButton btCadastrar;
 
 	/**
 	 * Create the panel.
@@ -49,26 +53,54 @@ public class Cadastro extends JPanel {
 		lbFuncao.setFont(new Font("Georgia", Font.PLAIN, 22));
 		add(lbFuncao, "cell 0 2");
 		
-		JComboBox cbFuncao = new JComboBox();
+		cbFuncao = new JComboBox();
 		cbFuncao.setBackground(new Color(255, 255, 255));
-		cbFuncao.setModel(new DefaultComboBoxModel(new String[] {"Não Administrador", "Administrador"}));
+		cbFuncao.setModel(new DefaultComboBoxModel(new String[] {"Administrador", "Cliente"}));
 		cbFuncao.setFont(new Font("Georgia", Font.PLAIN, 20));
 		add(cbFuncao, "cell 1 2");
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(208, 223, 251));
 		add(panel, "cell 0 3 2 1");
-		
-		JButton btCadastrar = new JButton("Cadastrar");
+	
+		btCadastrar = new JButton("Cadastrar");
 		btCadastrar.setBackground(new Color(188, 199, 243));
 		btCadastrar.setFont(new Font("Georgia", Font.PLAIN, 22));
 		panel.add(btCadastrar);
 		
 		btCadastrar.setBorderPainted(false);
-		
-		
-		
 
 	}
+	
+	public void cadastrarUsuario(ActionListener actionListener) {
+		this.btCadastrar.addActionListener(actionListener);
+	}
+
+	public JTextField getTfNomeCadastro() {
+		return tfNomeCadastro;
+	}
+
+	public void setTfNomeCadastro(JTextField tfNomeCadastro) {
+		this.tfNomeCadastro = tfNomeCadastro;
+	}
+
+	public JTextField getTfCPF() {
+		return tfCPF;
+	}
+
+	public void setTfCPF(JTextField tfCPF) {
+		this.tfCPF = tfCPF;
+	}
+
+	public JComboBox getCbFuncao() {
+		return cbFuncao;
+	}
+
+	public void setCbFuncao(JComboBox cbFuncao) {
+		this.cbFuncao = cbFuncao;
+	}
+	
+	
+	
 
 }

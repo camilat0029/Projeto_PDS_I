@@ -14,7 +14,7 @@ public class UsuarioDAO {
 	
 	// CREATE - Adicionar um novo usuário
     public void adicionarUsuario(Usuario usuario) {
-        String sql = "INSERT INTO usuarios (nome, cpf, administrador) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO usuarios (nome, cpf, funcao) VALUES (?, ?, ?)";
         Connection conexao = null;
         PreparedStatement pstm = null;
 
@@ -23,7 +23,7 @@ public class UsuarioDAO {
             pstm = conexao.prepareStatement(sql);
             pstm.setString(1, usuario.getNome());
             pstm.setString(2, usuario.getCpf());
-            pstm.setBoolean(3, usuario.isAdministrador());
+            pstm.setString(3, usuario.getFuncao());
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,10 +53,10 @@ public class UsuarioDAO {
             rset = pstm.executeQuery();
 
             while (rset.next()) {
-                Usuario usuario = new Usuario(sql, sql, false);
+                Usuario usuario = new Usuario(sql, sql, sql);
                 usuario.setNome(rset.getString("nome"));
                 usuario.setCpf(rset.getString("cpf"));
-                usuario.setAdministrador(rset.getBoolean("administrador")); 
+                usuario.setFuncao(rset.getString("funcao"));
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -70,7 +70,7 @@ public class UsuarioDAO {
     
     // UPDATE - Atualizar um usuário existente
     public void atualizarUsuario(Usuario usuario) {
-        String sql = "UPDATE usuarios SET nome = ?, administrador = ? WHERE cpf = ?";
+        String sql = "UPDATE usuarios SET nome = ?, funcao = ? WHERE cpf = ?";
         Connection conexao = null;
         PreparedStatement pstm = null;
 
@@ -78,7 +78,7 @@ public class UsuarioDAO {
             conexao = BancoDeDados.conectar();
             pstm = conexao.prepareStatement(sql);
             pstm.setString(1, usuario.getNome());
-            pstm.setBoolean(2, usuario.isAdministrador());
+            pstm.setString(2, usuario.getFuncao());
             pstm.setString(3, usuario.getCpf());
             pstm.executeUpdate();
         } catch (SQLException e) {

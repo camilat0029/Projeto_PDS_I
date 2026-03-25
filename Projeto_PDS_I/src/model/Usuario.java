@@ -4,13 +4,13 @@ public class Usuario {
 	
 	private String nome; 
     private String cpf; 
-    private boolean administrador;
+    private String funcao;
     
-	public Usuario(String nome, String cpf, boolean administrador) {
+	public Usuario(String nome, String cpf, String funcao) {
 		super();
 		this.nome = nome;
 		this.cpf = cpf;
-		this.administrador = administrador;
+		this.funcao = funcao;
 	}
 
 	public String getNome() {
@@ -29,11 +29,15 @@ public class Usuario {
 		this.cpf = cpf;
 	}
 
-	public boolean isAdministrador() {
-		return administrador;
+	public String getFuncao() {
+		return funcao;
 	}
 
-	public void setAdministrador(boolean administrador) {
-		this.administrador = administrador;
-	} 
+	public void setFuncao(String funcao) {
+		this.funcao = funcao;
+	}
+	
+	
+
+	
 }

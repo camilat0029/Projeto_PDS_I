@@ -72,7 +72,7 @@ public class ControllerProdutos {
 			+ "<br>Descrição: " + produtos.getDescricao() +"<br><br>"+ "</html>");
 		}
 		
-		produtosCRUD.getListaProdutos().setModel(modeloProduto);
+		
 		
 	}
 	

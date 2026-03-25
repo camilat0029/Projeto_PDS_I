@@ -14,15 +14,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class ProdutosCRUD extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JButton btAdicionar, btEditar, btRemover;
-	
-	//private DefaultListModel<String> listaProdutosModel;
-	private JList<String> listaProdutos;
+	private JScrollPane scrollPane;
+	private JTable tabelaProdutos;
 
 	/**
 	 * Create the panel.
@@ -33,7 +34,7 @@ public class ProdutosCRUD extends JPanel {
 		setPreferredSize(new Dimension(900, 580));
 		
 		setMinimumSize(new Dimension(900, 580));
-		setLayout(new MigLayout("gap 40", "[grow][223][223][223][grow]", "[70][][][][grow]"));
+		setLayout(new MigLayout("gap 40", "[grow][223,grow][223][223][grow]", "[70][][][][166.00][grow]"));
 		
 		JLabel lbProdutos = new JLabel("Estoque de Produtos");
 		lbProdutos.setFont(new Font("Comic Sans MS", Font.PLAIN, 35));
@@ -58,13 +59,20 @@ public class ProdutosCRUD extends JPanel {
 		add(btRemover, "cell 3 2,growx");
 		btRemover.setBorderPainted(false);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "cell 1 3 3 1,grow");
+		scrollPane = new JScrollPane();
+		add(scrollPane, "cell 1 3 3 2,grow");
 		
-		//listaProdutos = new JList(listaProdutosModel);
-		listaProdutos = new JList();
-		listaProdutos.setFont(new Font("Georgia", Font.PLAIN, 15));
-		scrollPane.setViewportView(listaProdutos);
+		tabelaProdutos = new JTable();
+		tabelaProdutos.setBackground(new Color(255, 255, 255));
+		tabelaProdutos.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 14));
+		tabelaProdutos.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Código-Barras", "Nome", "Valor", "Marca", "Fornecedora", "Quantidade", "Cor", "Data-Fabricacao", "Data-Validade"
+			}
+		));
+		scrollPane.setViewportView(tabelaProdutos);
 
 	}
 	
@@ -78,14 +86,6 @@ public class ProdutosCRUD extends JPanel {
 	
 	public void removerProduto(ActionListener actionListener) {
 		this.btRemover.addActionListener(actionListener);
-	}
-
-	public JList getListaProdutos() {
-		return listaProdutos;
-	}
-
-	public void setListaProdutos(JList<String> listaProdutos) {
-		this.listaProdutos = listaProdutos;
 	}
 
 }
