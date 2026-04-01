@@ -25,6 +25,7 @@ public class ProdutosCRUD extends JPanel {
 	private JButton btAdicionar, btEditar, btRemover;
 	private JScrollPane scrollPane;
 	private JTable tabelaProdutos;
+	private JButton btVisualizar;
 
 	/**
 	 * Create the panel.
@@ -35,33 +36,39 @@ public class ProdutosCRUD extends JPanel {
 		setPreferredSize(new Dimension(1020, 640));
 		setMinimumSize(new Dimension(1020, 640));
 		
-		setLayout(new MigLayout("gap 40", "[grow][223,grow][223][223][grow]", "[70][][][][166.00][grow]"));
+		setLayout(new MigLayout("gap 40", "[][grow][223][223][223][grow]", "[70][][][][166.00][grow]"));
 		
 		JLabel lbProdutos = new JLabel("Estoque de Produtos");
 		lbProdutos.setFont(new Font("Comic Sans MS", Font.PLAIN, 35));
-		add(lbProdutos, "cell 1 1 3 1,alignx center");
+		add(lbProdutos, "cell 1 1 4 1,alignx center");
+		
+		btVisualizar = new JButton("Visualizar Produtos");
+		btVisualizar.setBackground(new Color(188, 199, 247));
+		btVisualizar.setFont(new Font("Georgia", Font.PLAIN, 20));
+		add(btVisualizar, "cell 1 2,growx");
+		btVisualizar.setBorderPainted(false);
 		
 		btAdicionar = new JButton("Adicionar Produto");
-		btAdicionar.setFont(new Font("Georgia", Font.PLAIN, 22));
+		btAdicionar.setFont(new Font("Georgia", Font.PLAIN, 20));
 		btAdicionar.setBackground(new Color(188, 199, 243));
-		add(btAdicionar, "cell 1 2,growx");
+		add(btAdicionar, "cell 2 2,growx");
 		
 		btAdicionar.setBorderPainted(false);
 		
 		btEditar = new JButton("Editar Produto");
 		btEditar.setBackground(new Color(188, 199, 243));
 		btEditar.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(btEditar, "cell 2 2,growx");
+		add(btEditar, "cell 3 2,growx");
 		btEditar.setBorderPainted(false);
 		
 		btRemover = new JButton("Remover Produto");
 		btRemover.setFont(new Font("Georgia", Font.PLAIN, 22));
 		btRemover.setBackground(new Color(188, 199, 243));
-		add(btRemover, "cell 3 2,growx");
+		add(btRemover, "cell 4 2,growx");
 		btRemover.setBorderPainted(false);
 		
 		scrollPane = new JScrollPane();
-		add(scrollPane, "cell 1 3 3 2,grow");
+		add(scrollPane, "cell 1 3 4 2,grow");
 		
 		tabelaProdutos = new JTable();
 		tabelaProdutos.setBackground(new Color(255, 255, 255));
