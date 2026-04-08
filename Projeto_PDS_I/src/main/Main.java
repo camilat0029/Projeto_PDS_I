@@ -51,7 +51,7 @@ public class Main {
 		
 		
 		telaPrincipal.setVisible(true);
-		navegadorTelas.mudarTela("LOGIN");
+		navegadorTelas.mudarTela("COMPRAS");
 		
 		
 	}
