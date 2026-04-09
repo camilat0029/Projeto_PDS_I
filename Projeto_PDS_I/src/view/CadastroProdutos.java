@@ -146,83 +146,93 @@ public class CadastroProdutos extends JPanel {
 		this.btCadastrar.addActionListener(actionListener);
 	}
 
-	public String getTfNomeProduto() {
-		return tfNomeProduto.getText();
+	public JTextField getTfNomeProduto() {
+		return tfNomeProduto;
 	}
 
 	public void setTfNomeProduto(JTextField tfNomeProduto) {
 		this.tfNomeProduto = tfNomeProduto;
 	}
 
-	public String getTfValor() {
-		return tfValor.getText();
+	public JTextField getTfValor() {
+		return tfValor;
 	}
 
 	public void setTfValor(JTextField tfValor) {
 		this.tfValor = tfValor;
 	}
 
-	public String getTfQuantEstoque() {
-		return tfQuantEstoque.getText();
+	public JTextField getTfQuantEstoque() {
+		return tfQuantEstoque;
 	}
 
 	public void setTfQuantEstoque(JTextField tfQuantEstoque) {
 		this.tfQuantEstoque = tfQuantEstoque;
 	}
 
-	public String getTfMarca() {
-		return tfMarca.getText();
+	public JTextField getTfMarca() {
+		return tfMarca;
 	}
 
 	public void setTfMarca(JTextField tfMarca) {
 		this.tfMarca = tfMarca;
 	}
 
-	public String getTfCor() {
-		return tfCor.getText();
+	public JTextField getTfCor() {
+		return tfCor;
 	}
 
 	public void setTfCor(JTextField tfCor) {
 		this.tfCor = tfCor;
 	}
 
-	public String getTfCodBarras() {
-		return tfCodBarras.getText();
+	public JTextField getTfCodBarras() {
+		return tfCodBarras;
 	}
 
 	public void setTfCodBarras(JTextField tfCodBarras) {
 		this.tfCodBarras = tfCodBarras;
 	}
 
-	public String getTfFornecedora() {
-		return tfFornecedora.getText();
+	public JTextField getTfFornecedora() {
+		return tfFornecedora;
 	}
 
 	public void setTfFornecedora(JTextField tfFornecedora) {
 		this.tfFornecedora = tfFornecedora;
 	}
 
-	public String getTfDataFabr() {
-		return tfDataFabr.getText();
+	public JTextField getTfDataFabr() {
+		return tfDataFabr;
 	}
 
 	public void setTfDataFabr(JTextField tfDataFabr) {
 		this.tfDataFabr = tfDataFabr;
 	}
 
-	public String getTfDataVal() {
-		return tfDataVal.getText();
+	public JTextField getTfDataVal() {
+		return tfDataVal;
 	}
 
 	public void setTfDataVal(JTextField tfDataVal) {
 		this.tfDataVal = tfDataVal;
 	}
 
-	public String getTaDescricao() {
-		return taDescricao.getText();
+	public JTextArea getTaDescricao() {
+		return taDescricao;
 	}
 
 	public void setTaDescricao(JTextArea taDescricao) {
 		this.taDescricao = taDescricao;
 	}
+
+	public JButton getBtCadastrar() {
+		return btCadastrar;
+	}
+
+	public void setBtCadastrar(JButton btCadastrar) {
+		this.btCadastrar = btCadastrar;
+	}
+	
+	
 }

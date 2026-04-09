@@ -10,6 +10,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentListener;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -24,8 +25,13 @@ public class ProdutosCRUD extends JPanel {
 	
 	private JButton btAdicionar, btEditar, btRemover;
 	private JScrollPane scrollPane;
-	private JTable tabelaProdutos;
 	private JButton btVisualizar;
+	
+	public JTable tabelaProdutos;
+	private DefaultTableModel modeloTabela;
+
+	public DefaultTableModel tabelaModelo;
+	
 
 	/**
 	 * Create the panel.
@@ -76,13 +82,22 @@ public class ProdutosCRUD extends JPanel {
 		tabelaProdutos.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
-			new String[] {
-				"Código", "Nome", "Valor", "Marca", "Fornecedora", "Quantidade", "Cor", "Data-Fab", "Datat-Val"
+			new String[] {"Código", "Nome", "Valor(R$)", "Marca", "Fornecedora", "Quantidade", "Cor", "Data-Fab", "Data-Val"}
+			) {
+			
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
 			}
-		));
+			
+	});
 		scrollPane.setViewportView(tabelaProdutos);
 		
 
+	}
+	
+	public void adicionarOuvinte(ComponentListener listener) {
+		this.addComponentListener(listener);
 	}
 	
 	public void adicionarProdutos(ActionListener actionListener) {

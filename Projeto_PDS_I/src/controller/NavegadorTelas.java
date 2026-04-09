@@ -15,10 +15,6 @@ public class NavegadorTelas {
 		this.telaPrincipal = telaPrincipal;
 		this.produtosCRUD = produtosCRUD;
 		
-		this.produtosCRUD.adicionarProdutos(e ->{
-			mudarTela("CADASTROPRODUTOS");
-			System.out.println("CLIQUE");
-		});
 		
 		
 		

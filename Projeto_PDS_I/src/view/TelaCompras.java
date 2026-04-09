@@ -11,6 +11,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import java.awt.GridLayout;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseListener;
 
 import javax.swing.SpringLayout;
@@ -141,6 +142,10 @@ public class TelaCompras extends JPanel {
 	
 	public void proximosProdutos(MouseListener mouseListener) {
 		this.lbIconeProximo.addMouseListener(mouseListener);
+	}
+	
+	public void adicionarOuvinte(ComponentListener listener) {
+		this.addComponentListener(listener);
 	}
 
 	public JLabel getLbIconeProximo() {

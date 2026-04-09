@@ -15,7 +15,7 @@ import view.TelaCompras;
 public class ControllerCompras extends ComponentAdapter{
 	
 	private TelaCompras telaCompras;
-	private ProdutosDAO produtosDAO;
+	private ProdutosDAO produtosDAO = new ProdutosDAO();
 	private int contador = 0;
 	List<Produtos> produtos = produtosDAO.listarProdutos();
 
@@ -73,22 +73,22 @@ public class ControllerCompras extends ComponentAdapter{
 
 	}
 	
-//	public void componentShown(ComponentEvent e) {
-//		this.primeirosProdutos();
-//	}
-//	
-//	public void primeirosProdutos() {
-//		telaCompras.getLbNomeProduto().setText(produtos.get(0).getNome());
-//		telaCompras.getLbValor().setText(String.valueOf(produtos.get(0).getValor()));
-//		
-//		telaCompras.getLbNomeProduto2().setText(produtos.get(1).getNome());
-//		telaCompras.getLbValor2().setText(String.valueOf(produtos.get(1).getValor()));
-//		
-//		telaCompras.getLbNomeProduto3().setText(produtos.get(2).getNome());
-//		telaCompras.getLbValor3().setText(String.valueOf(produtos.get(2).getValor()));
-//		
-//		
-//	}
+	public void componentShown(ComponentEvent e) {
+		this.primeirosProdutos();
+	}
+	
+	public void primeirosProdutos() {
+		telaCompras.getLbNomeProduto().setText(produtos.get(0).getNome());
+		telaCompras.getLbValor().setText(String.valueOf(produtos.get(0).getValor()));
+		
+		telaCompras.getLbNomeProduto2().setText(produtos.get(1).getNome());
+		telaCompras.getLbValor2().setText(String.valueOf(produtos.get(1).getValor()));
+		
+		telaCompras.getLbNomeProduto3().setText(produtos.get(2).getNome());
+		telaCompras.getLbValor3().setText(String.valueOf(produtos.get(2).getValor()));
+		
+		
+	}
 	
 	
 	

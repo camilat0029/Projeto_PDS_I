@@ -3,6 +3,7 @@ package main;
 import javax.swing.UIManager;
 
 import controller.ControllerCadastroUsuario;
+import controller.ControllerCompras;
 import controller.ControllerLogin;
 import controller.ControllerProdutos;
 import controller.NavegadorTelas;
@@ -41,6 +42,10 @@ public class Main {
 		ControllerProdutos controllerProdutos = new ControllerProdutos(cadProdutos, produtosDAO, navegadorTelas, produtosCRUD);
 		ControllerCadastroUsuario controllerCadastroUsuario = new ControllerCadastroUsuario(cadastro, navegadorTelas, usuarioDAO);
 		ControllerLogin controllerLogin = new ControllerLogin(login, navegadorTelas);
+		ControllerCompras controllerCompras = new ControllerCompras(telaCompras);
+		
+	    telaCompras.adicionarOuvinte(controllerCompras);
+	    produtosCRUD.adicionarOuvinte(controllerProdutos);
 		
 		navegadorTelas.adicionarPainel("LOGIN", login);
 		navegadorTelas.adicionarPainel("CADASTRO", cadastro);
@@ -51,7 +56,7 @@ public class Main {
 		
 		
 		telaPrincipal.setVisible(true);
-		navegadorTelas.mudarTela("COMPRAS");
+		navegadorTelas.mudarTela("LOGIN");
 		
 		
 	}
