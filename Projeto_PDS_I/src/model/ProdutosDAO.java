@@ -130,4 +130,32 @@ public class ProdutosDAO {
         	BancoDeDados.desconectar(conexao);
         }
     }
+    
+    
+    // Select - Selecionar a descricao pelo codigo
+    public String selecionarAtributoProduto(int codigoBarras ) {
+    	String sql = "SELECT descricao FROM produtos WHERE codigoBarras = ?";
+    	 Connection conexao = null;
+         PreparedStatement pstm = null;
+         ResultSet rset = null;
+         
+         String descricao = "";
+         
+         try {
+             conexao = BancoDeDados.conectar();
+             pstm = conexao.prepareStatement(sql);
+             pstm.setInt(1, codigoBarras);
+             rset = pstm.executeQuery();
+             
+             if(rset.next()) {
+            	 descricao = rset.getString("descricao");
+             }
+         }catch (SQLException e) {
+             e.printStackTrace();
+         } finally {
+         	BancoDeDados.desconectar(conexao);
+         }
+         
+         return descricao;
+    }
 }

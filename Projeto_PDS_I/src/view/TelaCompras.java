@@ -11,6 +11,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseListener;
 
@@ -37,6 +38,8 @@ public class TelaCompras extends JPanel {
 	JLabel lbValor3;
 	JLabel lbSaibaMais3;
 	JButton btAddCarrinho3;
+	private JLabel lbIconeVoltar;
+	private JLabel lbMensagem;
 
 	/**
 	 * Create the panel.
@@ -46,11 +49,23 @@ public class TelaCompras extends JPanel {
 		setBackground(new Color(208, 223, 251));
 		setPreferredSize(new Dimension(1020, 640));
 		setMinimumSize(new Dimension(1020, 640));
-		setLayout(new MigLayout("", "[grow][][][][][grow]", "[grow][][235.00][grow]"));
+		setLayout(new MigLayout("", "[grow][][][][][][grow]", "[grow][][][][235.00][grow]"));
+		
+		JLabel lbProdutos = new JLabel("Produtos");
+		lbProdutos.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+		add(lbProdutos, "cell 2 1 3 1,alignx center");
+		
+		lbMensagem = new JLabel("Escolha o seu Produto!!!");
+		lbMensagem.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+		add(lbMensagem, "cell 2 2 3 1,alignx center");
+		
+		lbIconeVoltar = new JLabel("");
+		lbIconeVoltar.setIcon(new ImageIcon(TelaCompras.class.getResource("/imagens/Icone_Voltar_Tela_Compras.png")));
+		add(lbIconeVoltar, "cell 1 4");
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(208, 223, 251));
-		add(panel, "cell 1 2 3 1,grow");
+		add(panel, "cell 2 4 3 1,grow");
 		panel.setLayout(new GridLayout(1, 3, 20, 10));
 		
 		JPanel panel_item1 = new JPanel();
@@ -135,7 +150,7 @@ public class TelaCompras extends JPanel {
 		
 		lbIconeProximo = new JLabel("");
 		lbIconeProximo.setIcon(new ImageIcon(TelaCompras.class.getResource("/imagens/Icone_Proximo.png")));
-		add(lbIconeProximo, "cell 4 2,alignx center");
+		add(lbIconeProximo, "cell 5 4,alignx center");
 		
 
 	}
@@ -144,9 +159,40 @@ public class TelaCompras extends JPanel {
 		this.lbIconeProximo.addMouseListener(mouseListener);
 	}
 	
+	public void voltarProdutos(MouseListener mouseListener) {
+		this.lbIconeVoltar.addMouseListener(mouseListener);
+	}
+	
 	public void adicionarOuvinte(ComponentListener listener) {
 		this.addComponentListener(listener);
 	}
+	
+	
+	public void addCarrinho(ActionListener actionListener) {
+		this.btAddCarrinho.addActionListener(actionListener);
+	}
+	
+	public void addCarrinho2(ActionListener actionListener) {
+		this.btAddCarrinho2.addActionListener(actionListener);
+	}
+	
+	public void addCarrinho3(ActionListener actionListener) {
+		this.btAddCarrinho3.addActionListener(actionListener);
+	}
+	
+	
+	public void saibaMais(MouseListener mouseListener) {
+		this.lbSaibaMais.addMouseListener(mouseListener);
+	}
+	
+	public void saibaMais2(MouseListener mouseListener) {
+		this.lbSaibaMais2.addMouseListener(mouseListener);
+	}
+	
+	public void saibaMais3(MouseListener mouseListener) {
+		this.lbSaibaMais3.addMouseListener(mouseListener);
+	}
+	
 
 	public JLabel getLbIconeProximo() {
 		return lbIconeProximo;

@@ -15,6 +15,7 @@ import view.Login;
 import view.ProdutosCRUD;
 import view.TelaCompras;
 import view.TelaPrincipal;
+import view.TelaVisualizarProduto;
 
 public class Main {
 	
@@ -37,12 +38,13 @@ public class Main {
 		ProdutosCRUD produtosCRUD = new ProdutosCRUD();
 		ProdutosDAO produtosDAO = new ProdutosDAO();
 		TelaCompras telaCompras = new TelaCompras();
+		TelaVisualizarProduto visualizarProduto = new TelaVisualizarProduto();
 		
 		NavegadorTelas navegadorTelas = new NavegadorTelas(telaPrincipal, produtosCRUD);
-		ControllerProdutos controllerProdutos = new ControllerProdutos(cadProdutos, produtosDAO, navegadorTelas, produtosCRUD);
+		ControllerProdutos controllerProdutos = new ControllerProdutos(cadProdutos, produtosDAO, navegadorTelas, produtosCRUD, visualizarProduto);
 		ControllerCadastroUsuario controllerCadastroUsuario = new ControllerCadastroUsuario(cadastro, navegadorTelas, usuarioDAO);
 		ControllerLogin controllerLogin = new ControllerLogin(login, navegadorTelas);
-		ControllerCompras controllerCompras = new ControllerCompras(telaCompras);
+		ControllerCompras controllerCompras = new ControllerCompras(telaCompras, navegadorTelas);
 		
 	    telaCompras.adicionarOuvinte(controllerCompras);
 	    produtosCRUD.adicionarOuvinte(controllerProdutos);
@@ -52,6 +54,7 @@ public class Main {
 		navegadorTelas.adicionarPainel("CADASTROPRODUTOS", cadProdutos);
 		navegadorTelas.adicionarPainel("PRODUTOSCRUD", produtosCRUD);
 		navegadorTelas.adicionarPainel("COMPRAS", telaCompras);
+		navegadorTelas.adicionarPainel("VISUALIZARPRODUTO", visualizarProduto);
 		
 		
 		

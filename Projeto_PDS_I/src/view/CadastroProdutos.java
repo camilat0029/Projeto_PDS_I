@@ -38,7 +38,7 @@ public class CadastroProdutos extends JPanel {
 		setMinimumSize(new Dimension(1020, 640));
 		setPreferredSize(new Dimension(1020, 640));
 		
-		setLayout(new MigLayout("fill, gap 20", "[][grow][][][][]", "[][][][][][][][]"));
+		setLayout(new MigLayout("fill, gap 20", "[][grow][][][][]", "[][][][][][][][][]"));
 		
 		JLabel lbNomeProduto = new JLabel("Nome do Produto");
 		lbNomeProduto.setFont(new Font("Georgia", Font.PLAIN, 22));
@@ -127,11 +127,13 @@ public class CadastroProdutos extends JPanel {
 		
 		taDescricao = new JTextArea();
 		taDescricao.setFont(new Font("Georgia", Font.PLAIN, 18));
-		add(taDescricao, "cell 2 6 3 1,growx");
+		taDescricao.setLineWrap(true);
+		
+		add(taDescricao, "cell 2 6 3 2,height 70px,grow");
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(208, 223, 251));
-		add(panel, "cell 1 7 4 1,growx,aligny center");
+		add(panel, "cell 1 8 4 1,growx,aligny center");
 		
 		btCadastrar = new JButton("Cadastrar");
 		btCadastrar.setBackground(new Color(188, 199, 243));
@@ -233,6 +235,11 @@ public class CadastroProdutos extends JPanel {
 	public void setBtCadastrar(JButton btCadastrar) {
 		this.btCadastrar = btCadastrar;
 	}
+	
+	public void setTaDescricao2(String descricao) {
+		this.taDescricao.setText(descricao);
+	}
+
 	
 	
 }

@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -13,6 +15,7 @@ import model.Produtos;
 import model.ProdutosDAO;
 import view.CadastroProdutos;
 import view.ProdutosCRUD;
+import view.TelaVisualizarProduto;
 
 public class ControllerProdutos extends ComponentAdapter{
 	
@@ -21,17 +24,19 @@ public class ControllerProdutos extends ComponentAdapter{
 	//private Produtos produtos;
 	private ProdutosCRUD produtosCRUD;
 	private NavegadorTelas navegadorTelas;
+	private TelaVisualizarProduto visualizarProd;
 	
 	
 	
 	public ControllerProdutos(CadastroProdutos cadastroProdutos, ProdutosDAO produtosDAO,
-			NavegadorTelas navegadorTelas, ProdutosCRUD produtosCRUD ) {
+			NavegadorTelas navegadorTelas, ProdutosCRUD produtosCRUD, TelaVisualizarProduto visualizarProd ) {
 		super();
 		this.cadastroProdutos = cadastroProdutos;
 		this.produtosDAO = produtosDAO;
 		//this.produtos = produtos;
 		this.navegadorTelas = navegadorTelas;
 		this.produtosCRUD = produtosCRUD;
+		this.visualizarProd = visualizarProd;
 		
 		this.produtosCRUD.adicionarProdutos(e ->{
 			navegadorTelas.mudarTela("CADASTROPRODUTOS");
@@ -55,13 +60,33 @@ public class ControllerProdutos extends ComponentAdapter{
 			
 			if(cadastroProdutos.getBtCadastrar().getText().equals("Cadastrar")) {
 				cadastrarProdutos();
-				navegadorTelas.mudarTela("PRODUTOSCRUD");
 				
-				System.out.println("CLIQUE");
 			} else if(cadastroProdutos.getBtCadastrar().getText().equals("Atualizar")){
-				navegadorTelas.mudarTela("LOGIN");
+				
+				editarProduto();
+				
 			}
 			
+			limparCamposTelaCadProdutos();
+			navegadorTelas.mudarTela("PRODUTOSCRUD");
+			System.out.println("CLIQUE");
+			
+		});
+		
+		
+		this.produtosCRUD.visualizarProduto(e -> {
+			
+			visualizarUmProduto();
+			
+		});
+		
+		this.visualizarProd.voltar(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				navegadorTelas.mudarTela("PRODUTOSCRUD");
+				
+			}
 		});
 		
 	}
@@ -79,13 +104,40 @@ public class ControllerProdutos extends ComponentAdapter{
 		produtosCRUD.tabelaModelo.setRowCount(0);
 		
 		for (Produtos produtos2 : produtos) {
-			Object[] informacoes  = {produtos2.getCodigoBarras(), produtos2.getNome(), "R$ " + String.format("%.2f", produtos2.getValor()), 
+			Object[] informacoes  = {produtos2.getCodigoBarras(), produtos2.getNome(),  String.format("%.2f", produtos2.getValor()), 
 					produtos2.getMarca(), produtos2.getFornecedora(), produtos2.getQuantidade(),
 					produtos2.getCor(), produtos2.getDataFabricacao(), produtos2.getDataValidade()};
 			
 			produtosCRUD.tabelaModelo.addRow(informacoes);
 		}
 		
+		
+	}
+	
+	public void visualizarUmProduto() {
+		
+		int linhaSelecionada = produtosCRUD.tabelaProdutos.getSelectedRow();
+		
+		if (linhaSelecionada >= 0) {
+			
+			visualizarProd.getLbConteudoCodBarras().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 0).toString());
+			visualizarProd.getLbConteudoNome().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 1).toString());
+			visualizarProd.getLbConteudoValor().setText("R$ " + produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 2).toString());
+			visualizarProd.getLbConteudoMarca().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 3).toString());
+			visualizarProd.getLbConteudoForn().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 4).toString());
+			visualizarProd.getLbConteudoQtd().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 5).toString());
+			visualizarProd.getLbConteudoCor().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 6).toString());
+			visualizarProd.getLbConteudoDtFab().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 7).toString());
+			visualizarProd.getLbConteudoDtVal().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 8).toString());
+			
+			visualizarProd.getTaConteudoDesc().setText(produtosDAO.selecionarAtributoProduto(Integer.parseInt
+			(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 0).toString())));
+			
+			navegadorTelas.mudarTela("VISUALIZARPRODUTO");
+			
+		} else {
+			JOptionPane.showMessageDialog(null, "Selecione uma linha para Visualizar um Produto!", "Informação", 1);
+		}
 		
 	}
 	
@@ -97,7 +149,7 @@ public class ControllerProdutos extends ComponentAdapter{
 		
 		produtos.setCodigoBarras(Integer.parseInt(cadastroProdutos.getTfCodBarras().getText()));
 		produtos.setNome(cadastroProdutos.getTfNomeProduto().getText());
-		produtos.setValor(Float.parseFloat(cadastroProdutos.getTfValor().getText()));
+		produtos.setValor(Float.parseFloat(cadastroProdutos.getTfValor().getText().replace(",", ".")));
 		produtos.setMarca(cadastroProdutos.getTfMarca().getText());
 		produtos.setFornecedora(cadastroProdutos.getTfFornecedora().getText());
 		produtos.setQuantidade(Integer.parseInt(cadastroProdutos.getTfQuantEstoque().getText()));
@@ -143,13 +195,17 @@ public class ControllerProdutos extends ComponentAdapter{
 			
 			cadastroProdutos.getTfCodBarras().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 0).toString());
 			cadastroProdutos.getTfNomeProduto().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 1).toString());
-			cadastroProdutos.getTfValor().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 2).toString());
+			cadastroProdutos.getTfValor().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 2).toString().replace(",", "."));
 			cadastroProdutos.getTfMarca().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 3).toString());
 			cadastroProdutos.getTfFornecedora().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 4).toString());
 			cadastroProdutos.getTfQuantEstoque().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 5).toString());
 			cadastroProdutos.getTfCor().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 6).toString());
 			cadastroProdutos.getTfDataFabr().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 7).toString());
 			cadastroProdutos.getTfDataVal().setText(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 8).toString());
+			
+			cadastroProdutos.setTaDescricao2(produtosDAO.selecionarAtributoProduto(Integer.parseInt
+					(produtosCRUD.tabelaProdutos.getValueAt(linhaSelecionada, 0).toString())));
+			
 			
 			cadastroProdutos.getTfCodBarras().setEditable(false);
 			cadastroProdutos.getTfCodBarras().setFocusable(false);
@@ -162,21 +218,16 @@ public class ControllerProdutos extends ComponentAdapter{
 		
 	}
 	
-	
-	
-	
-	
-	//TESTAR
 	public void editarProduto() {
 		
 		Produtos produtoAtualizado = new Produtos(0, null, 0, null, null, 0, null, null, null, null);
 		
 		produtoAtualizado.setNome(cadastroProdutos.getTfNomeProduto().getText());
-		produtoAtualizado.setValor(Float.parseFloat(cadastroProdutos.getTfValor().getText()));
+		produtoAtualizado.setValor(Float.parseFloat(cadastroProdutos.getTfValor().getText().replace(",", ".")));
 		produtoAtualizado.setMarca(cadastroProdutos.getTfMarca().getText());
 		produtoAtualizado.setFornecedora(cadastroProdutos.getTfFornecedora().getText());
 		produtoAtualizado.setQuantidade(Integer.parseInt(cadastroProdutos.getTfQuantEstoque().getText()));
-		produtoAtualizado.setDescricao("");
+		produtoAtualizado.setDescricao(cadastroProdutos.getTaDescricao().getText());
 		produtoAtualizado.setCor(cadastroProdutos.getTfCor().getText());
 		produtoAtualizado.setDataValidade(cadastroProdutos.getTfDataVal().getText());
 		produtoAtualizado.setDataFabricacao(cadastroProdutos.getTfDataFabr().getText());
@@ -186,6 +237,18 @@ public class ControllerProdutos extends ComponentAdapter{
 		
 	}
 	
-	
-
+	public void limparCamposTelaCadProdutos() {
+		
+		cadastroProdutos.getTfCodBarras().setText("");
+		cadastroProdutos.getTfCor().setText("");
+		cadastroProdutos.getTfDataFabr().setText("");
+		cadastroProdutos.getTfDataVal().setText("");
+		cadastroProdutos.getTfFornecedora().setText("");
+		cadastroProdutos.getTfMarca().setText("");
+		cadastroProdutos.getTfNomeProduto().setText("");
+		cadastroProdutos.getTfQuantEstoque().setText("");
+		cadastroProdutos.getTfValor().setText("");
+		cadastroProdutos.getTaDescricao().setText("");
+		
+	}
 }

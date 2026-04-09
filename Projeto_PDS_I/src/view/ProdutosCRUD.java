@@ -48,7 +48,7 @@ public class ProdutosCRUD extends JPanel {
 		lbProdutos.setFont(new Font("Comic Sans MS", Font.PLAIN, 35));
 		add(lbProdutos, "cell 1 1 4 1,alignx center");
 		
-		btVisualizar = new JButton("Visualizar Produtos");
+		btVisualizar = new JButton("Visualizar Produto");
 		btVisualizar.setBackground(new Color(188, 199, 247));
 		btVisualizar.setFont(new Font("Georgia", Font.PLAIN, 20));
 		add(btVisualizar, "cell 1 2,growx");
@@ -110,6 +110,10 @@ public class ProdutosCRUD extends JPanel {
 	
 	public void removerProduto(ActionListener actionListener) {
 		this.btRemover.addActionListener(actionListener);
+	}
+	
+	public void visualizarProduto(ActionListener actionListener) {
+		this.btVisualizar.addActionListener(actionListener);
 	}
 
 }
