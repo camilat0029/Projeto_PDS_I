@@ -49,7 +49,7 @@ public class TelaCompras extends JPanel {
 		setBackground(new Color(208, 223, 251));
 		setPreferredSize(new Dimension(1020, 640));
 		setMinimumSize(new Dimension(1020, 640));
-		setLayout(new MigLayout("", "[grow][][][][][][grow]", "[grow][][][][235.00][grow]"));
+		setLayout(new MigLayout("gap 20", "[grow][][][][][][grow]", "[grow][][][][235.00][grow]"));
 		
 		JLabel lbProdutos = new JLabel("Produtos");
 		lbProdutos.setFont(new Font("Comic Sans MS", Font.BOLD, 50));

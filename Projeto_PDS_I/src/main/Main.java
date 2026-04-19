@@ -44,7 +44,7 @@ public class Main {
 		ControllerProdutos controllerProdutos = new ControllerProdutos(cadProdutos, produtosDAO, navegadorTelas, produtosCRUD, visualizarProduto);
 		ControllerCadastroUsuario controllerCadastroUsuario = new ControllerCadastroUsuario(cadastro, navegadorTelas, usuarioDAO);
 		ControllerLogin controllerLogin = new ControllerLogin(login, navegadorTelas);
-		ControllerCompras controllerCompras = new ControllerCompras(telaCompras, navegadorTelas);
+		ControllerCompras controllerCompras = new ControllerCompras(telaCompras, navegadorTelas, visualizarProduto);
 		
 	    telaCompras.adicionarOuvinte(controllerCompras);
 	    produtosCRUD.adicionarOuvinte(controllerProdutos);

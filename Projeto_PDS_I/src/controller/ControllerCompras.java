@@ -15,21 +15,27 @@ import model.Produtos;
 import model.ProdutosDAO;
 import model.Usuario;
 import view.TelaCompras;
+import view.TelaVisualizarProduto;
 
 public class ControllerCompras extends ComponentAdapter{
 	
 	private TelaCompras telaCompras;
 	private ProdutosDAO produtosDAO = new ProdutosDAO();
 	private NavegadorTelas navegadorTelas;
+	private TelaVisualizarProduto visualizarProduto;
 	private int contador = 0;
 	private int produtosPagina = 3;
 	private List<Produtos> produtos;
+	private int codigoBarrasPanel;
+	private int codigoBarrasPanel2;
+	private int codigoBarrasPanel3;
 	
 
-	public ControllerCompras(TelaCompras telaCompras, NavegadorTelas navegadorTelas) {
+	public ControllerCompras(TelaCompras telaCompras, NavegadorTelas navegadorTelas, TelaVisualizarProduto visualizarProduto) {
 		super();
 		this.telaCompras = telaCompras;
 		this.navegadorTelas = navegadorTelas;
+		this.visualizarProduto = visualizarProduto;
 		
 		produtos = produtosDAO.listarProdutos();
 		
@@ -53,7 +59,41 @@ public class ControllerCompras extends ComponentAdapter{
 			}
 		});
 		
+		this.telaCompras.saibaMais(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				saibaMais(codigoBarrasPanel);
+				System.out.println("CLIQUE");
+			}
+		});
 		
+		this.telaCompras.saibaMais2(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				saibaMais(codigoBarrasPanel2);
+				System.out.println("CLIQUE");
+			}
+		});
+		
+		this.telaCompras.saibaMais3(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				saibaMais(codigoBarrasPanel3);
+				System.out.println("CLIQUE");
+			}
+		});
+		
+		this.visualizarProduto.voltar(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				navegadorTelas.mudarTela("COMPRAS");
+				
+			}
+		});
+		
+		
+	
 	}
 	
 	public void atualizarTela(){
@@ -84,6 +124,8 @@ public class ControllerCompras extends ComponentAdapter{
 			telaCompras.getBtAddCarrinho().setEnabled(true);
 			telaCompras.getLbSaibaMais().setEnabled(true);
 			
+			codigoBarrasPanel = produtosExibidos[0].getCodigoBarras();
+			
 		}else {
 			telaCompras.getLbNomeProduto().setText("");
 			telaCompras.getLbValor().setText("Esgotado");
@@ -107,6 +149,8 @@ public class ControllerCompras extends ComponentAdapter{
 			telaCompras.getBtAddCarrinho2().setEnabled(true);
 			telaCompras.getLbSaibaMais2().setEnabled(true);
 			
+			codigoBarrasPanel2 = produtosExibidos[1].getCodigoBarras();
+			
 		}else {
 			telaCompras.getLbNomeProduto2().setText("");
 			telaCompras.getLbValor2().setText("Esgotado");
@@ -128,6 +172,8 @@ public class ControllerCompras extends ComponentAdapter{
 			telaCompras.getBtAddCarrinho3().setBackground(new Color(188, 199, 243));
 			telaCompras.getBtAddCarrinho3().setEnabled(true);
 			telaCompras.getLbSaibaMais3().setEnabled(true);
+			
+			codigoBarrasPanel3 = produtosExibidos[2].getCodigoBarras();
 			
 		} else {
 			telaCompras.getLbNomeProduto3().setText("");
@@ -165,16 +211,50 @@ public class ControllerCompras extends ComponentAdapter{
 	public void primeirosProdutos() {
 		telaCompras.getLbNomeProduto().setText(produtos.get(0).getNome());
 		telaCompras.getLbValor().setText(String.valueOf("R$ " + String.format("%.2f", produtos.get(0).getValor())));
+		codigoBarrasPanel = produtos.get(0).getCodigoBarras();
 		
 		telaCompras.getLbNomeProduto2().setText(produtos.get(1).getNome());
 		telaCompras.getLbValor2().setText(String.valueOf("R$ " + String.format("%.2f", produtos.get(1).getValor())));
+		codigoBarrasPanel2 = produtos.get(1).getCodigoBarras();
 		
 		telaCompras.getLbNomeProduto3().setText(produtos.get(2).getNome());
 		telaCompras.getLbValor3().setText(String.valueOf("R$ " + String.format("%.2f", produtos.get(2).getValor())));
+		codigoBarrasPanel3 = produtos.get(2).getCodigoBarras();
 	}
 	
-	
-	
-	
+	public void saibaMais(int codigoBarras) {
+		
+		Produtos produtoPanel = null;
+		
+		for (Produtos produtos : produtos) {
+			
+			if(produtos.getCodigoBarras() == codigoBarras) {
+				
+				
+				produtoPanel = produtos;
+				
+				break;
+				
+			}
+		}
 
+		if(produtoPanel == null) {
+			System.out.println("Produto não encontrado");
+			return;
+		}
+		
+		navegadorTelas.mudarTela("VISUALIZARPRODUTO");
+		
+		visualizarProduto.getLbConteudoCodBarras().setText(String.valueOf(produtoPanel.getCodigoBarras()));
+		visualizarProduto.getLbConteudoNome().setText(produtoPanel.getNome());
+		visualizarProduto.getLbConteudoValor().setText(String.valueOf(produtoPanel.getValor()));
+		visualizarProduto.getLbConteudoMarca().setText(produtoPanel.getMarca());
+		visualizarProduto.getLbConteudoForn().setText(produtoPanel.getFornecedora());
+		visualizarProduto.getLbConteudoQtd().setText(String.valueOf(produtoPanel.getQuantidade()));
+		visualizarProduto.getLbConteudoCor().setText(produtoPanel.getCor());
+		visualizarProduto.getLbConteudoDtFab().setText(produtoPanel.getDataFabricacao());
+		visualizarProduto.getLbConteudoDtVal().setText(produtoPanel.getDataValidade());
+		visualizarProduto.getTaConteudoDesc().setText(produtoPanel.getDescricao());
+	
+	}
 }
