@@ -10,10 +10,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 import model.Produtos;
 import model.ProdutosDAO;
 import model.Usuario;
+import view.TelaCarrinhoCompras;
 import view.TelaCompras;
 import view.TelaVisualizarProduto;
 
@@ -23,19 +26,18 @@ public class ControllerCompras extends ComponentAdapter{
 	private ProdutosDAO produtosDAO = new ProdutosDAO();
 	private NavegadorTelas navegadorTelas;
 	private TelaVisualizarProduto visualizarProduto;
-	private int contador = 0;
-	private int produtosPagina = 3;
-	private List<Produtos> produtos;
-	private int codigoBarrasPanel;
-	private int codigoBarrasPanel2;
-	private int codigoBarrasPanel3;
+	private TelaCarrinhoCompras carrinhoCompras;
 	
-
-	public ControllerCompras(TelaCompras telaCompras, NavegadorTelas navegadorTelas, TelaVisualizarProduto visualizarProduto) {
+	private int contador = 0, produtosPagina = 3, codigoBarrasPanel, codigoBarrasPanel2, codigoBarrasPanel3;
+	private List<Produtos> produtos;
+	
+	public ControllerCompras(TelaCompras telaCompras, NavegadorTelas navegadorTelas, 
+			TelaVisualizarProduto visualizarProduto, TelaCarrinhoCompras carrinhoCompras) {
 		super();
 		this.telaCompras = telaCompras;
 		this.navegadorTelas = navegadorTelas;
 		this.visualizarProduto = visualizarProduto;
+		this.carrinhoCompras = carrinhoCompras;
 		
 		produtos = produtosDAO.listarProdutos();
 		
@@ -55,6 +57,15 @@ public class ControllerCompras extends ComponentAdapter{
 				
 				System.out.println("Clique");
 				atualizarProdutosTelaVoltar();
+				
+			}
+		});
+		
+		this.telaCompras.carrinhoCompras(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				navegadorTelas.mudarTela("CARRINHOCOMPRAS");
 				
 			}
 		});
@@ -81,6 +92,24 @@ public class ControllerCompras extends ComponentAdapter{
 				saibaMais(codigoBarrasPanel3);
 				System.out.println("CLIQUE");
 			}
+		});
+		
+		this.telaCompras.addCarrinho(e -> {
+			
+			adicionarCarrinho(codigoBarrasPanel);
+		
+		});
+		
+		this.telaCompras.addCarrinho2(e -> {
+			
+			adicionarCarrinho(codigoBarrasPanel2);
+			
+		});
+		
+		this.telaCompras.addCarrinho3(e -> {
+			
+			adicionarCarrinho(codigoBarrasPanel3);
+			
 		});
 		
 		this.visualizarProduto.voltar(new MouseAdapter() {
@@ -226,12 +255,12 @@ public class ControllerCompras extends ComponentAdapter{
 		
 		Produtos produtoPanel = null;
 		
-		for (Produtos produtos : produtos) {
+		for (Produtos produto : produtos) {
 			
-			if(produtos.getCodigoBarras() == codigoBarras) {
+			if(produto.getCodigoBarras() == codigoBarras) {
 				
 				
-				produtoPanel = produtos;
+				produtoPanel = produto;
 				
 				break;
 				
@@ -257,4 +286,67 @@ public class ControllerCompras extends ComponentAdapter{
 		visualizarProduto.getTaConteudoDesc().setText(produtoPanel.getDescricao());
 	
 	}
+	
+	public void adicionarCarrinho(int codigoBarras) {
+		
+		Produtos produtoPanel = null;
+		carrinhoCompras.tabCarrinhoModelo = (DefaultTableModel) carrinhoCompras.tabelaCarrinho.getModel();
+		boolean produtoJaAdd = false;
+		
+		int totalLinhastabela = carrinhoCompras.tabCarrinhoModelo.getRowCount();
+		
+		for (Produtos produto : produtos) {
+			
+			if(produto.getCodigoBarras() == codigoBarras) {
+				
+				produtoPanel = produto;
+				break;
+			}
+			
+		}
+		
+		if (produtoPanel == null) {
+			System.out.println("Produto não encontrado");
+			return;
+		}
+		
+		
+		for (int i = 0; i < totalLinhastabela; i++) {
+			
+			Object nomeTabela = carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 0);
+			
+			if (nomeTabela != null && nomeTabela.equals(produtoPanel.getNome())) {
+				
+				
+				int quantAtual = Integer.parseInt(carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 2).toString());
+				
+				if(quantAtual < produtoPanel.getQuantidade()) {
+					
+					carrinhoCompras.tabCarrinhoModelo.setValueAt(quantAtual + 1, i, 2);
+					JOptionPane.showMessageDialog(null, "Produto Adicionado ao Carrinho com Sucesso!", "Informação", 1);
+					
+				}  else {
+					JOptionPane.showMessageDialog(null, "Desculpe, mas já atingiu a quantidade \ntotal de nosso estoque deste produto!", 
+							"Informação", 1);
+					
+					carrinhoCompras.tabCarrinhoModelo.setValueAt(quantAtual, i, 2);
+				}
+				
+				produtoJaAdd = true; 
+				break;
+			} 
+			
+			
+			
+		}
+		
+		if(produtoJaAdd == false) {
+			Object[] informacoes  = {produtoPanel.getNome(),  String.format("%.2f", produtoPanel.getValor()), 1};
+			
+			JOptionPane.showMessageDialog(null, "Produto Adicionado ao Carrinho com Sucesso!", "Informação", 1);
+			carrinhoCompras.tabCarrinhoModelo.addRow(informacoes);
+		}
+		
+	}
+	
 }

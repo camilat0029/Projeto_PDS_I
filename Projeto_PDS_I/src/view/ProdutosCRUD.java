@@ -24,11 +24,10 @@ public class ProdutosCRUD extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private JButton btAdicionar, btEditar, btRemover;
-	private JScrollPane scrollPane;
 	private JButton btVisualizar;
 	
+	private JScrollPane scrollPane;
 	public JTable tabelaProdutos;
-	private DefaultTableModel modeloTabela;
 
 	public DefaultTableModel tabelaModelo;
 	

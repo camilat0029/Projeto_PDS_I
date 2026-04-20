@@ -3,6 +3,7 @@ package main;
 import javax.swing.UIManager;
 
 import controller.ControllerCadastroUsuario;
+import controller.ControllerCarrinhoCompras;
 import controller.ControllerCompras;
 import controller.ControllerLogin;
 import controller.ControllerProdutos;
@@ -13,6 +14,7 @@ import view.Cadastro;
 import view.CadastroProdutos;
 import view.Login;
 import view.ProdutosCRUD;
+import view.TelaCarrinhoCompras;
 import view.TelaCompras;
 import view.TelaPrincipal;
 import view.TelaVisualizarProduto;
@@ -39,15 +41,18 @@ public class Main {
 		ProdutosDAO produtosDAO = new ProdutosDAO();
 		TelaCompras telaCompras = new TelaCompras();
 		TelaVisualizarProduto visualizarProduto = new TelaVisualizarProduto();
+		TelaCarrinhoCompras carrinhoCompras = new TelaCarrinhoCompras();
 		
 		NavegadorTelas navegadorTelas = new NavegadorTelas(telaPrincipal, produtosCRUD);
 		ControllerProdutos controllerProdutos = new ControllerProdutos(cadProdutos, produtosDAO, navegadorTelas, produtosCRUD, visualizarProduto);
 		ControllerCadastroUsuario controllerCadastroUsuario = new ControllerCadastroUsuario(cadastro, navegadorTelas, usuarioDAO);
 		ControllerLogin controllerLogin = new ControllerLogin(login, navegadorTelas);
-		ControllerCompras controllerCompras = new ControllerCompras(telaCompras, navegadorTelas, visualizarProduto);
+		ControllerCompras controllerCompras = new ControllerCompras(telaCompras, navegadorTelas, visualizarProduto, carrinhoCompras);
+		ControllerCarrinhoCompras controllerCarrinho = new ControllerCarrinhoCompras(carrinhoCompras, telaCompras, navegadorTelas);
 		
 	    telaCompras.adicionarOuvinte(controllerCompras);
 	    produtosCRUD.adicionarOuvinte(controllerProdutos);
+	    carrinhoCompras.adicionarOuvinte(controllerCarrinho);
 		
 		navegadorTelas.adicionarPainel("LOGIN", login);
 		navegadorTelas.adicionarPainel("CADASTRO", cadastro);
@@ -55,6 +60,7 @@ public class Main {
 		navegadorTelas.adicionarPainel("PRODUTOSCRUD", produtosCRUD);
 		navegadorTelas.adicionarPainel("COMPRAS", telaCompras);
 		navegadorTelas.adicionarPainel("VISUALIZARPRODUTO", visualizarProduto);
+		navegadorTelas.adicionarPainel("CARRINHOCOMPRAS", carrinhoCompras);
 		
 		
 		

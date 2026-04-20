@@ -40,6 +40,7 @@ public class TelaCompras extends JPanel {
 	JButton btAddCarrinho3;
 	private JLabel lbIconeVoltar;
 	private JLabel lbMensagem;
+	private JLabel lbIconeCarriCompras;
 
 	/**
 	 * Create the panel.
@@ -49,23 +50,27 @@ public class TelaCompras extends JPanel {
 		setBackground(new Color(208, 223, 251));
 		setPreferredSize(new Dimension(1020, 640));
 		setMinimumSize(new Dimension(1020, 640));
-		setLayout(new MigLayout("gap 20", "[grow][][][][][][grow]", "[grow][][][][235.00][grow]"));
+		setLayout(new MigLayout("gap 20", "[75.00,grow][][][][][][grow][]", "[][grow][][][][235.00][60.00][grow]"));
+		
+		lbIconeCarriCompras = new JLabel("");
+		lbIconeCarriCompras.setIcon(new ImageIcon(TelaCompras.class.getResource("/imagens/Icone_CarrinhoCompras.png")));
+		add(lbIconeCarriCompras, "cell 7 0");
 		
 		JLabel lbProdutos = new JLabel("Produtos");
 		lbProdutos.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		add(lbProdutos, "cell 2 1 3 1,alignx center");
+		add(lbProdutos, "cell 2 2 3 1,alignx center");
 		
 		lbMensagem = new JLabel("Escolha o seu Produto!!!");
 		lbMensagem.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
-		add(lbMensagem, "cell 2 2 3 1,alignx center");
+		add(lbMensagem, "cell 2 3 3 1,alignx center");
 		
 		lbIconeVoltar = new JLabel("");
 		lbIconeVoltar.setIcon(new ImageIcon(TelaCompras.class.getResource("/imagens/Icone_Voltar_Tela_Compras.png")));
-		add(lbIconeVoltar, "cell 1 4");
+		add(lbIconeVoltar, "cell 1 5");
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(208, 223, 251));
-		add(panel, "cell 2 4 3 1,grow");
+		add(panel, "cell 2 5 3 1,grow");
 		panel.setLayout(new GridLayout(1, 3, 20, 10));
 		
 		JPanel panel_item1 = new JPanel();
@@ -150,7 +155,7 @@ public class TelaCompras extends JPanel {
 		
 		lbIconeProximo = new JLabel("");
 		lbIconeProximo.setIcon(new ImageIcon(TelaCompras.class.getResource("/imagens/Icone_Proximo.png")));
-		add(lbIconeProximo, "cell 5 4,alignx center");
+		add(lbIconeProximo, "cell 5 5,alignx center");
 		
 
 	}
@@ -161,6 +166,10 @@ public class TelaCompras extends JPanel {
 	
 	public void voltarProdutos(MouseListener mouseListener) {
 		this.lbIconeVoltar.addMouseListener(mouseListener);
+	}
+	
+	public void carrinhoCompras(MouseListener mouseListener) {
+		this.lbIconeCarriCompras.addMouseListener(mouseListener);
 	}
 	
 	public void adicionarOuvinte(ComponentListener listener) {
