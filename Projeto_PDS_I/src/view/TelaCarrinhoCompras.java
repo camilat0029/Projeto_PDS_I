@@ -72,7 +72,7 @@ public class TelaCarrinhoCompras extends JPanel {
 		tabelaCarrinho.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
-				new String[] {"Nome", "Valor(R$)", "Quantidade"}
+				new String[] {"Código de Barras", "Nome", "Valor(R$)", "Quantidade"}
 				) {
 				
 				@Override

@@ -313,16 +313,16 @@ public class ControllerCompras extends ComponentAdapter{
 		
 		for (int i = 0; i < totalLinhastabela; i++) {
 			
-			Object nomeTabela = carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 0);
+			Object codigoTabela = carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 0);
 			
-			if (nomeTabela != null && nomeTabela.equals(produtoPanel.getNome())) {
+			if (codigoTabela != null && codigoTabela.equals(produtoPanel.getCodigoBarras())) {
 				
 				
-				int quantAtual = Integer.parseInt(carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 2).toString());
+				int quantAtual = Integer.parseInt(carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 3).toString());
 				
 				if(quantAtual < produtoPanel.getQuantidade()) {
 					
-					carrinhoCompras.tabCarrinhoModelo.setValueAt(quantAtual + 1, i, 2);
+					carrinhoCompras.tabCarrinhoModelo.setValueAt(quantAtual + 1, i, 3);
 					JOptionPane.showMessageDialog(null, "Produto Adicionado ao Carrinho com Sucesso!", "Informação", 1);
 					
 				}  else {
@@ -341,7 +341,7 @@ public class ControllerCompras extends ComponentAdapter{
 		}
 		
 		if(produtoJaAdd == false) {
-			Object[] informacoes  = {produtoPanel.getNome(),  String.format("%.2f", produtoPanel.getValor()), 1};
+			Object[] informacoes  = {produtoPanel.getCodigoBarras(), produtoPanel.getNome(),  String.format("%.2f", produtoPanel.getValor()), 1};
 			
 			JOptionPane.showMessageDialog(null, "Produto Adicionado ao Carrinho com Sucesso!", "Informação", 1);
 			carrinhoCompras.tabCarrinhoModelo.addRow(informacoes);
