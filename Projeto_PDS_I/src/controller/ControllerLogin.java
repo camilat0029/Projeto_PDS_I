@@ -15,7 +15,7 @@ public class ControllerLogin {
 	private NavegadorTelas navegadorTelas;
 	private UsuarioDAO usuarioDAO = new UsuarioDAO();
 	private boolean usuarioEncontrado;
-	 
+	public static Usuario usuarioLogado;
 	
 	
 	public ControllerLogin(Login login, NavegadorTelas navegadorTelas) {
@@ -57,6 +57,7 @@ public class ControllerLogin {
 						usuario.getFuncao().equals("Administrador")) {
 					
 					usuarioEncontrado = true;
+					usuarioLogado = usuario;
 					funcaoUsuario = "Administrador";
 					break;
 				} else if(usuario.getNome().equals(login.getTfNome().getText()) && 
@@ -64,6 +65,7 @@ public class ControllerLogin {
 						usuario.getFuncao().equals("Cliente")) {
 					
 					usuarioEncontrado = true;
+					usuarioLogado = usuario;
 					funcaoUsuario = "Cliente";
 					break;
 					

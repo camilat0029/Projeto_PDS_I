@@ -13,7 +13,10 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Produtos;
 import model.ProdutosDAO;
+import model.Usuario;
+import model.UsuarioDAO;
 import view.CadastroProdutos;
+import view.Login;
 import view.ProdutosCRUD;
 import view.TelaVisualizarProduto;
 
@@ -25,11 +28,14 @@ public class ControllerProdutos extends ComponentAdapter{
 	private ProdutosCRUD produtosCRUD;
 	private NavegadorTelas navegadorTelas;
 	private TelaVisualizarProduto visualizarProd;
+	private UsuarioDAO usuarioDAO;
+	private Usuario usuarioLogado;
 	
 	
 	
 	public ControllerProdutos(CadastroProdutos cadastroProdutos, ProdutosDAO produtosDAO,
-			NavegadorTelas navegadorTelas, ProdutosCRUD produtosCRUD, TelaVisualizarProduto visualizarProd ) {
+			NavegadorTelas navegadorTelas, ProdutosCRUD produtosCRUD, TelaVisualizarProduto visualizarProd, 
+			UsuarioDAO usuarioDAO, Usuario usuarioLogado) {
 		super();
 		this.cadastroProdutos = cadastroProdutos;
 		this.produtosDAO = produtosDAO;
@@ -37,6 +43,8 @@ public class ControllerProdutos extends ComponentAdapter{
 		this.navegadorTelas = navegadorTelas;
 		this.produtosCRUD = produtosCRUD;
 		this.visualizarProd = visualizarProd;
+		this.usuarioDAO = usuarioDAO;
+		this.usuarioLogado = usuarioLogado;
 		
 		this.produtosCRUD.adicionarProdutos(e ->{
 			navegadorTelas.mudarTela("CADASTROPRODUTOS");
@@ -84,7 +92,7 @@ public class ControllerProdutos extends ComponentAdapter{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				navegadorTelas.mudarTela("PRODUTOSCRUD");
+				voltarVisualizarProd();
 				
 			}
 		});
@@ -249,6 +257,32 @@ public class ControllerProdutos extends ComponentAdapter{
 		cadastroProdutos.getTfQuantEstoque().setText("");
 		cadastroProdutos.getTfValor().setText("");
 		cadastroProdutos.getTaDescricao().setText("");
+		
+	}
+	
+	//ARRUMAR
+	public void voltarVisualizarProd() {
+		
+		Login login = new Login();
+		ControllerLogin controllerLogin = new ControllerLogin(login, navegadorTelas);
+		
+		usuarioLogado = controllerLogin.usuarioLogado;
+			
+			if(usuarioLogado.getFuncao().equals("Administrador")){
+				
+				navegadorTelas.mudarTela("PRODUTOSCRUD");
+				
+			}
+			
+			if(usuarioLogado.getFuncao().equals("Cliente")) {
+				
+				navegadorTelas.mudarTela("COMPRAS");
+				
+			}
+			
+		
+		
+		
 		
 	}
 }

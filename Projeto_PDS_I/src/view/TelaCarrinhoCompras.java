@@ -115,6 +115,10 @@ public class TelaCarrinhoCompras extends JPanel {
 		this.btDimiQtd.addActionListener(actionListener);
 	}
 	
+	public void removerProduto(ActionListener actionListener) {
+		this.btExcluir.addActionListener(actionListener);
+	}
+	
 	public void concluirCompra(ActionListener actionListener) {
 		this.btConcluirCompra.addActionListener(actionListener);
 	}

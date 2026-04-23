@@ -9,6 +9,7 @@ import controller.ControllerLogin;
 import controller.ControllerProdutos;
 import controller.NavegadorTelas;
 import model.ProdutosDAO;
+import model.Usuario;
 import model.UsuarioDAO;
 import view.Cadastro;
 import view.CadastroProdutos;
@@ -32,6 +33,7 @@ public class Main {
 	   // }
 		
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		Usuario usuario = new Usuario(null, null, null);
 		
 		TelaPrincipal telaPrincipal = new TelaPrincipal();
 		Cadastro cadastro = new Cadastro();
@@ -44,7 +46,8 @@ public class Main {
 		TelaCarrinhoCompras carrinhoCompras = new TelaCarrinhoCompras();
 		
 		NavegadorTelas navegadorTelas = new NavegadorTelas(telaPrincipal, produtosCRUD);
-		ControllerProdutos controllerProdutos = new ControllerProdutos(cadProdutos, produtosDAO, navegadorTelas, produtosCRUD, visualizarProduto);
+		ControllerProdutos controllerProdutos = new ControllerProdutos(cadProdutos, produtosDAO, navegadorTelas, 
+				produtosCRUD, visualizarProduto, usuarioDAO, usuario);
 		ControllerCadastroUsuario controllerCadastroUsuario = new ControllerCadastroUsuario(cadastro, navegadorTelas, usuarioDAO);
 		ControllerLogin controllerLogin = new ControllerLogin(login, navegadorTelas);
 		ControllerCompras controllerCompras = new ControllerCompras(telaCompras, navegadorTelas, visualizarProduto, carrinhoCompras);
