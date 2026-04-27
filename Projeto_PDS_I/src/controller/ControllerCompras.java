@@ -111,20 +111,10 @@ public class ControllerCompras extends ComponentAdapter{
 			adicionarCarrinho(codigoBarrasPanel3);
 			
 		});
-		
-		this.visualizarProduto.voltar(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				navegadorTelas.mudarTela("COMPRAS");
-				
-			}
-		});
-		
-		
 	
 	}
 	
+	//Arrumar caso a quantidade chegue a zero
 	public void atualizarTela(){
 		
 		Produtos[] produtosExibidos = new Produtos[3];

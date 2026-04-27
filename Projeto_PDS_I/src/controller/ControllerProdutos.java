@@ -29,13 +29,11 @@ public class ControllerProdutos extends ComponentAdapter{
 	private NavegadorTelas navegadorTelas;
 	private TelaVisualizarProduto visualizarProd;
 	private UsuarioDAO usuarioDAO;
-	private Usuario usuarioLogado;
-	
 	
 	
 	public ControllerProdutos(CadastroProdutos cadastroProdutos, ProdutosDAO produtosDAO,
 			NavegadorTelas navegadorTelas, ProdutosCRUD produtosCRUD, TelaVisualizarProduto visualizarProd, 
-			UsuarioDAO usuarioDAO, Usuario usuarioLogado) {
+			UsuarioDAO usuarioDAO) {
 		super();
 		this.cadastroProdutos = cadastroProdutos;
 		this.produtosDAO = produtosDAO;
@@ -44,7 +42,6 @@ public class ControllerProdutos extends ComponentAdapter{
 		this.produtosCRUD = produtosCRUD;
 		this.visualizarProd = visualizarProd;
 		this.usuarioDAO = usuarioDAO;
-		this.usuarioLogado = usuarioLogado;
 		
 		this.produtosCRUD.adicionarProdutos(e ->{
 			navegadorTelas.mudarTela("CADASTROPRODUTOS");
@@ -263,19 +260,20 @@ public class ControllerProdutos extends ComponentAdapter{
 	//ARRUMAR
 	public void voltarVisualizarProd() {
 		
-		Login login = new Login();
-		ControllerLogin controllerLogin = new ControllerLogin(login, navegadorTelas);
+		Usuario usuarioLogado = ControllerLogin.usuarioLogado;
 		
-		usuarioLogado = controllerLogin.usuarioLogado;
+		System.out.println("FUNÇÃO: " + usuarioLogado.getFuncao());
+		
 			
 			if(usuarioLogado.getFuncao().equals("Administrador")){
+				System.out.println("FUN: " + usuarioLogado.getFuncao());
 				
 				navegadorTelas.mudarTela("PRODUTOSCRUD");
 				
 			}
 			
 			if(usuarioLogado.getFuncao().equals("Cliente")) {
-				
+				System.out.println("ÇÃO: " + usuarioLogado.getFuncao());
 				navegadorTelas.mudarTela("COMPRAS");
 				
 			}

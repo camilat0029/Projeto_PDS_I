@@ -17,6 +17,8 @@ import view.Login;
 import view.ProdutosCRUD;
 import view.TelaCarrinhoCompras;
 import view.TelaCompras;
+import view.TelaConcluirCompra;
+import view.TelaNotaFiscal;
 import view.TelaPrincipal;
 import view.TelaVisualizarProduto;
 
@@ -44,14 +46,17 @@ public class Main {
 		TelaCompras telaCompras = new TelaCompras();
 		TelaVisualizarProduto visualizarProduto = new TelaVisualizarProduto();
 		TelaCarrinhoCompras carrinhoCompras = new TelaCarrinhoCompras();
+		TelaConcluirCompra telaConcluirCompra = new TelaConcluirCompra();
+		TelaNotaFiscal telaNotaFiscal = new TelaNotaFiscal();
 		
 		NavegadorTelas navegadorTelas = new NavegadorTelas(telaPrincipal, produtosCRUD);
 		ControllerProdutos controllerProdutos = new ControllerProdutos(cadProdutos, produtosDAO, navegadorTelas, 
-				produtosCRUD, visualizarProduto, usuarioDAO, usuario);
+				produtosCRUD, visualizarProduto, usuarioDAO);
 		ControllerCadastroUsuario controllerCadastroUsuario = new ControllerCadastroUsuario(cadastro, navegadorTelas, usuarioDAO);
 		ControllerLogin controllerLogin = new ControllerLogin(login, navegadorTelas);
 		ControllerCompras controllerCompras = new ControllerCompras(telaCompras, navegadorTelas, visualizarProduto, carrinhoCompras);
-		ControllerCarrinhoCompras controllerCarrinho = new ControllerCarrinhoCompras(carrinhoCompras, telaCompras, navegadorTelas);
+		ControllerCarrinhoCompras controllerCarrinho = new ControllerCarrinhoCompras(carrinhoCompras, telaCompras, navegadorTelas, 
+				telaConcluirCompra, telaNotaFiscal);
 		
 	    telaCompras.adicionarOuvinte(controllerCompras);
 	    produtosCRUD.adicionarOuvinte(controllerProdutos);
@@ -64,6 +69,8 @@ public class Main {
 		navegadorTelas.adicionarPainel("COMPRAS", telaCompras);
 		navegadorTelas.adicionarPainel("VISUALIZARPRODUTO", visualizarProduto);
 		navegadorTelas.adicionarPainel("CARRINHOCOMPRAS", carrinhoCompras);
+		navegadorTelas.adicionarPainel("CONCLUIRCOMPRA", telaConcluirCompra);
+		navegadorTelas.adicionarPainel("NOTAFISCAL", telaNotaFiscal);
 		
 		
 		

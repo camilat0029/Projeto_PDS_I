@@ -11,13 +11,18 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Produtos;
 import model.ProdutosDAO;
+import model.Usuario;
 import view.TelaCarrinhoCompras;
 import view.TelaCompras;
+import view.TelaConcluirCompra;
+import view.TelaNotaFiscal;
 
 public class ControllerCarrinhoCompras extends ComponentAdapter {
 
 	private TelaCarrinhoCompras carrinhoCompras;
 	private TelaCompras compras;
+	private TelaConcluirCompra telaConcluirCompra;
+	private TelaNotaFiscal telaNotaFiscal;
 	private NavegadorTelas navegadorTelas;
 	private ProdutosDAO produtosDAO = new ProdutosDAO();
 
@@ -25,11 +30,13 @@ public class ControllerCarrinhoCompras extends ComponentAdapter {
 	private int totalLinhas;
 
 	public ControllerCarrinhoCompras(TelaCarrinhoCompras carrinhoCompras, TelaCompras compras,
-			NavegadorTelas navegadorTelas) {
+			NavegadorTelas navegadorTelas, TelaConcluirCompra telaConcluirCompra, TelaNotaFiscal telaNotaFiscal) {
 		super();
 		this.carrinhoCompras = carrinhoCompras;
 		this.compras = compras;
 		this.navegadorTelas = navegadorTelas;
+		this.telaConcluirCompra = telaConcluirCompra;
+		this.telaNotaFiscal = telaNotaFiscal;
 
 
 		this.carrinhoCompras.aumentarQtd(e -> {
@@ -48,9 +55,26 @@ public class ControllerCarrinhoCompras extends ComponentAdapter {
 		});
 		
 		this.carrinhoCompras.concluirCompra(e -> {
-			JOptionPane.showMessageDialog(null, "Compra Concluída", "Informação", 1);
+			concluirCompra();
 		});
-
+		
+		this.telaConcluirCompra.voltar(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				navegadorTelas.mudarTela("CARRINHOCOMPRAS");
+			}
+		});
+		
+		this.telaConcluirCompra.emitirNotaFiscal(e -> {
+			emitirNotaFiscal();
+		});
+		
+		this.telaNotaFiscal.voltar(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				navegadorTelas.mudarTela("COMPRAS");
+			}
+		});
 	}
 
 	public void componentShown(ComponentEvent e) {
@@ -83,6 +107,8 @@ public class ControllerCarrinhoCompras extends ComponentAdapter {
 
 		linhaSelecionada = carrinhoCompras.tabelaCarrinho.getSelectedRow();
 		totalLinhas = carrinhoCompras.tabelaCarrinho.getRowCount();
+		
+		boolean quantInsuficiente = false;
 
 		if (linhaSelecionada >= 0) {
 
@@ -96,19 +122,21 @@ public class ControllerCarrinhoCompras extends ComponentAdapter {
 						if (produtos.getQuantidade() > quantTabela) {
 
 							carrinhoCompras.tabelaCarrinho.setValueAt(quantTabela + 1, linhaSelecionada, 3);
-							
+							break;
 
 						} else {
-							JOptionPane.showMessageDialog(null,
-									"Desculpe, mas já atingiu a quantidade \ntotal de nosso estoque deste produto!",
-									"Informação", 1);
-							
+							quantInsuficiente = true;
 						}
-						break;
 					}
 				}
-
+				if(quantInsuficiente == true) {
+					JOptionPane.showMessageDialog(null,
+							"Desculpe, mas já atingiu a quantidade \ntotal de nosso estoque deste produto!",
+							"Informação", 1);
+					return;
+				}
 			}
+			
 		} else {
 
 			JOptionPane.showMessageDialog(null, "Selecione uma linha para adicionar", "Informação", 1);
@@ -169,25 +197,77 @@ public class ControllerCarrinhoCompras extends ComponentAdapter {
 	
 	public void concluirCompra() {
 		
-		totalLinhas = carrinhoCompras.tabelaCarrinho.getRowCount();
+		Usuario usuarioLogado = ControllerLogin.usuarioLogado;
+		
+		
+		telaConcluirCompra.getLbConteudoNome().setText(usuarioLogado.getNome());
+		telaConcluirCompra.getLbConteudoCPF().setText(usuarioLogado.getCpf());
+		telaConcluirCompra.getLbConteudoTotalPag().setText(carrinhoCompras.getLbValorTotal().getText());
+		
+		navegadorTelas.mudarTela("CONCLUIRCOMPRA");
+		
+		
+	}
+	
+	public void emitirNotaFiscal() {
+		
 		
 		List<Produtos> produto = produtosDAO.listarProdutos();
 		Produtos produtoAtualizado = new Produtos(0, null, 0, null, null, 0, null, null, null, null);
 		
+		totalLinhas = carrinhoCompras.tabelaCarrinho.getRowCount();
 		carrinhoCompras.tabCarrinhoModelo = (DefaultTableModel) carrinhoCompras.tabelaCarrinho.getModel();
+		int novaQuant = 0;
 		
-		for (int i = 0; i < totalLinhas; i++) {
+		String radioButtonSelecionado = "";
+		
+		if(telaConcluirCompra.getRbCartaoCre().isSelected() == false &&  
+				telaConcluirCompra.getRbCartaoDeb().isSelected() == false &&
+				telaConcluirCompra.getRbPix().isSelected() == false) {
 			
-			for (Produtos produtos : produto) {
-				
-		
-				
-				produtosDAO.atualizarProdutos(produtoAtualizado);
-				
+			JOptionPane.showMessageDialog(null, "Selecione uma forma de pagamento!", "Informação", 1);
+			
+		} else {
+			if(telaConcluirCompra.getRbCartaoCre().isSelected()) {
+				radioButtonSelecionado = telaConcluirCompra.getRbCartaoCre().getText();
+			} else if (telaConcluirCompra.getRbCartaoDeb().isSelected()) {
+				radioButtonSelecionado = telaConcluirCompra.getRbCartaoDeb().getText();
+			} else if (telaConcluirCompra.getRbPix().isSelected()) {
+				radioButtonSelecionado = telaConcluirCompra.getRbPix().getText();
 			}
 			
+			
+			
+			Usuario usuarioLogado = ControllerLogin.usuarioLogado;
+			
+			telaNotaFiscal.getLbConteudoNome().setText(usuarioLogado.getNome());
+			telaNotaFiscal.getLbConteudoCPF().setText(usuarioLogado.getCpf());
+			telaNotaFiscal.getLbConteudoFormPag().setText(radioButtonSelecionado);
+			telaNotaFiscal.getLbConteudoTotalPago().setText(carrinhoCompras.getLbValorTotal().getText());
+			
+			
+			for (int i = 0; i < totalLinhas; i++) {
+				
+				int codigo = Integer.parseInt(carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 0).toString());
+				
+				for (Produtos produtos : produto) {
+					
+					if(produtos.getCodigoBarras() == codigo) {
+						
+						telaNotaFiscal.getTaProdutos().append("Código de Barras: " + produtos.getCodigoBarras() + "\nProduto: " + produtos.getNome() +
+								"\nValor: R$ " + produtos.getValor() + "\nQuantidade Adquirida:" + carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 3) + 
+								"\nMarca: " + produtos.getMarca() + "\nFornecedora: " + produtos.getFornecedora() + "\nCor: " + produtos.getCor() + 
+								"\nData de Fabricação: " + produtos.getDataFabricacao() + "\nData de Validade: " + produtos.getDataValidade() + 
+								"\nDescrição: " + produtos.getDescricao() + "\n\n");
+						
+						novaQuant = produtos.getQuantidade() - Integer.parseInt(carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 3).toString()) ;
+						
+						produtosDAO.atualizarQuatidade(codigo, novaQuant);
+					}
+				}
+			}
+			
+			navegadorTelas.mudarTela("NOTAFISCAL");
 		}
-		
-		
 	}
 }

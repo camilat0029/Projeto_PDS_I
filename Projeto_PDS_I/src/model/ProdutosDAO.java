@@ -158,4 +158,25 @@ public class ProdutosDAO {
          
          return descricao;
     }
+    
+    // UPDATE - Atualizar quantidade
+    public void atualizarQuatidade(int codigoBarras, int quantidade) {
+        String sql = "UPDATE produtos SET quantidade = ? WHERE codigoBarras = ?";
+        Connection conexao = null;
+        PreparedStatement pstm = null;
+
+        try {
+            conexao = BancoDeDados.conectar();
+            pstm = conexao.prepareStatement(sql);
+            
+            pstm.setInt(1, quantidade);
+            pstm.setInt(2, codigoBarras);
+            
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        	BancoDeDados.desconectar(conexao);
+        }
+    }
 }
