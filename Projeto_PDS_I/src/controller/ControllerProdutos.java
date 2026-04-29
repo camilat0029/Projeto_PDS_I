@@ -18,6 +18,7 @@ import model.UsuarioDAO;
 import view.CadastroProdutos;
 import view.Login;
 import view.ProdutosCRUD;
+import view.TelaPrincipal;
 import view.TelaVisualizarProduto;
 
 public class ControllerProdutos extends ComponentAdapter{
@@ -29,6 +30,7 @@ public class ControllerProdutos extends ComponentAdapter{
 	private NavegadorTelas navegadorTelas;
 	private TelaVisualizarProduto visualizarProd;
 	private UsuarioDAO usuarioDAO;
+	private TelaPrincipal tela = new TelaPrincipal();
 	
 	
 	public ControllerProdutos(CadastroProdutos cadastroProdutos, ProdutosDAO produtosDAO,
@@ -90,6 +92,22 @@ public class ControllerProdutos extends ComponentAdapter{
 			public void mouseClicked(MouseEvent e) {
 				
 				voltarVisualizarProd();
+				
+			}
+		});
+		
+		this.produtosCRUD.deslogar(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				int confirm = JOptionPane.showConfirmDialog(tela, "Deseja Sair da Conta?", "Sair", JOptionPane.YES_NO_OPTION);
+				
+				if(confirm == JOptionPane.YES_OPTION) {
+					System.out.println(ControllerLogin.usuarioLogado);
+					ControllerLogin.usuarioLogado = null;
+					System.out.println(ControllerLogin.usuarioLogado);
+					navegadorTelas.mudarTela("LOGIN");
+				}
 				
 			}
 		});
