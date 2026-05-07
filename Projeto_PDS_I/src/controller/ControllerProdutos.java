@@ -74,9 +74,6 @@ public class ControllerProdutos extends ComponentAdapter{
 				
 			}
 			
-			limparCamposTelaCadProdutos();
-			navegadorTelas.mudarTela("PRODUTOSCRUD");
-			System.out.println("CLIQUE");
 			
 		});
 		
@@ -170,12 +167,51 @@ public class ControllerProdutos extends ComponentAdapter{
 		Produtos produtos = new Produtos(0, null, 0, null, null, 0, null, null, null, null);
 		produtosCRUD.tabelaModelo = (DefaultTableModel) produtosCRUD.tabelaProdutos.getModel();
 		
-		produtos.setCodigoBarras(Integer.parseInt(cadastroProdutos.getTfCodBarras().getText()));
+		try {
+			int codigoBarras = Integer.parseInt(cadastroProdutos.getTfCodBarras().getText());
+			produtos.setCodigoBarras(codigoBarras);
+			
+			if (codigoBarras < 0) {
+				throw new IllegalArgumentException();
+			}
+			
+		} catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Digite Somente Números \npara o Código de Barras \nExemplo: 1,2,3...", "Informação", 1);
+			return;
+		} catch(IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, "O código de barras não pode ser negativo!", "Informação", 1);
+			return;
+		}
+		
+		
 		produtos.setNome(cadastroProdutos.getTfNomeProduto().getText());
-		produtos.setValor(Float.parseFloat(cadastroProdutos.getTfValor().getText().replace(",", ".")));
+		
+		
+		try {
+			produtos.setValor(Float.parseFloat(cadastroProdutos.getTfValor().getText().replace(",", ".").trim()));
+		} catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Digite um Valor Válido \nExemplo: 10,50", "Informação", 1);
+			return;
+		}
+		
 		produtos.setMarca(cadastroProdutos.getTfMarca().getText());
 		produtos.setFornecedora(cadastroProdutos.getTfFornecedora().getText());
-		produtos.setQuantidade(Integer.parseInt(cadastroProdutos.getTfQuantEstoque().getText()));
+		
+		try {
+			int quantidade = Integer.parseInt(cadastroProdutos.getTfQuantEstoque().getText());
+			produtos.setQuantidade(quantidade);
+			
+			if(quantidade < 0) {
+				throw new IllegalArgumentException();
+			}
+		} catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Digite Somente Números \npara o Código de Barras \nExemplo: 1,2,3...", "Informação", 1);
+			return;
+		} catch (IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, "A quantidade não pode ser negativa!", "Informação", 1);
+			return;
+		}
+		
 		produtos.setDescricao(cadastroProdutos.getTaDescricao().getText());
 		produtos.setCor(cadastroProdutos.getTfCor().getText());
 		produtos.setDataValidade(cadastroProdutos.getTfDataVal().getText());
@@ -188,6 +224,10 @@ public class ControllerProdutos extends ComponentAdapter{
 				produtos.getCor(), produtos.getDataFabricacao(), produtos.getDataValidade()};
 		
 		produtosCRUD.tabelaModelo.addRow(informacoes);
+		
+		limparCamposTelaCadProdutos();
+		navegadorTelas.mudarTela("PRODUTOSCRUD");
+		System.out.println("CLIQUE");
 		
 	}
 	
@@ -257,6 +297,10 @@ public class ControllerProdutos extends ComponentAdapter{
 		produtoAtualizado.setCodigoBarras(Integer.parseInt(cadastroProdutos.getTfCodBarras().getText()));
 		
 		produtosDAO.atualizarProdutos(produtoAtualizado);
+		
+		limparCamposTelaCadProdutos();
+		navegadorTelas.mudarTela("PRODUTOSCRUD");
+		System.out.println("CLIQUE");
 		
 	}
 	
