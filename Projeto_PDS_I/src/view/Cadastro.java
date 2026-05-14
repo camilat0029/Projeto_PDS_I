@@ -10,9 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
 
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -22,7 +25,7 @@ public class Cadastro extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField tfNomeCadastro;
-	private JTextField tfCPF;
+	private JFormattedTextField tfCPF;
 	private JComboBox cbFuncao;
 	private JButton btCadastrar;
 	private JLabel lbVoltar;
@@ -55,9 +58,17 @@ public class Cadastro extends JPanel {
 		lbCPF.setFont(new Font("Georgia", Font.PLAIN, 22));
 		add(lbCPF, "cell 2 3");
 		
-		tfCPF = new JTextField();
-		tfCPF.setFont(new Font("Georgia", Font.PLAIN, 20));
-		add(tfCPF, "cell 3 3,width 25%,height 38px");
+		try {
+			MaskFormatter  mascaraCPF = new MaskFormatter("### ### ### ##");
+			mascaraCPF.setPlaceholder(" ");
+			
+			tfCPF = new JFormattedTextField(mascaraCPF);
+			tfCPF.setFont(new Font("Georgia", Font.PLAIN, 20));
+			add(tfCPF, "cell 3 3,width 25%,height 38px");
+		} catch(ParseException e) {
+			e.printStackTrace();
+		}
+		
 		tfCPF.setColumns(10);
 		
 		JLabel lbFuncao = new JLabel("Função");
@@ -123,7 +134,7 @@ public class Cadastro extends JPanel {
 	}
 
 	public void setTfCPF(JTextField tfCPF) {
-		this.tfCPF = tfCPF;
+		this.tfCPF = (JFormattedTextField) tfCPF;
 	}
 
 	public JComboBox getCbFuncao() {

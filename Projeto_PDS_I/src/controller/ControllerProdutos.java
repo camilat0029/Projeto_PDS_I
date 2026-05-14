@@ -1,5 +1,8 @@
 package controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -45,6 +48,8 @@ public class ControllerProdutos extends ComponentAdapter{
 		this.visualizarProd = visualizarProd;
 		this.usuarioDAO = usuarioDAO;
 		
+		this.produtosCRUD.addComponentListener(this);
+		
 		this.produtosCRUD.adicionarProdutos(e ->{
 			navegadorTelas.mudarTela("CADASTROPRODUTOS");
 			System.out.println("CLIQUE");
@@ -71,10 +76,16 @@ public class ControllerProdutos extends ComponentAdapter{
 			} else if(cadastroProdutos.getBtCadastrar().getText().equals("Atualizar")){
 				
 				editarProduto();
-				
 			}
 			
-			
+		});
+		
+		this.cadastroProdutos.voltar(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				limparCamposTelaCadProdutos();
+				navegadorTelas.mudarTela("PRODUTOSCRUD");
+			}
 		});
 		
 		
@@ -188,9 +199,19 @@ public class ControllerProdutos extends ComponentAdapter{
 		
 		
 		try {
-			produtos.setValor(Float.parseFloat(cadastroProdutos.getTfValor().getText().replace(",", ".").trim()));
+			
+			float valor = Float.parseFloat(cadastroProdutos.getTfValor().getText().replace(",", ".").trim());
+			produtos.setValor(valor);
+			
+			if (valor < 0) {
+				throw new IllegalArgumentException();
+			}
+			
 		} catch(NumberFormatException e) {
 			JOptionPane.showMessageDialog(null, "Digite um Valor Válido \nExemplo: 10,50", "Informação", 1);
+			return;
+		} catch(IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, "Digite um valor positivo \nExemplo: 15,50", "Informação", 1);
 			return;
 		}
 		
@@ -205,7 +226,7 @@ public class ControllerProdutos extends ComponentAdapter{
 				throw new IllegalArgumentException();
 			}
 		} catch(NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Digite Somente Números \npara o Código de Barras \nExemplo: 1,2,3...", "Informação", 1);
+			JOptionPane.showMessageDialog(null, "Digite Somente Números \nInteiros para a quantidade \nExemplo: 1,2,3...", "Informação", 1);
 			return;
 		} catch (IllegalArgumentException e) {
 			JOptionPane.showMessageDialog(null, "A quantidade não pode ser negativa!", "Informação", 1);
@@ -214,8 +235,17 @@ public class ControllerProdutos extends ComponentAdapter{
 		
 		produtos.setDescricao(cadastroProdutos.getTaDescricao().getText());
 		produtos.setCor(cadastroProdutos.getTfCor().getText());
-		produtos.setDataValidade(cadastroProdutos.getTfDataVal().getText());
-		produtos.setDataFabricacao(cadastroProdutos.getTfDataFabr().getText());
+		
+		String dataValidade = validarEConverterData(cadastroProdutos.getTfDataVal().getText());
+		String dataFabricacao = validarEConverterData(cadastroProdutos.getTfDataFabr().getText());
+		
+		if(dataValidade == null && dataFabricacao == null) {
+			JOptionPane.showMessageDialog(null, "Digite datas validas! \nExemplo: dd/mm/yyyy \nou yyyy-mm-dd", "Informação", 1);
+			return;
+		}
+		
+		produtos.setDataValidade(dataValidade);
+		produtos.setDataFabricacao(dataFabricacao);
 		
 		produtosDAO.adicionarProdutos(produtos);
 		
@@ -286,15 +316,71 @@ public class ControllerProdutos extends ComponentAdapter{
 		Produtos produtoAtualizado = new Produtos(0, null, 0, null, null, 0, null, null, null, null);
 		
 		produtoAtualizado.setNome(cadastroProdutos.getTfNomeProduto().getText());
-		produtoAtualizado.setValor(Float.parseFloat(cadastroProdutos.getTfValor().getText().replace(",", ".")));
+		
+		try {
+			
+			float valor = Float.parseFloat(cadastroProdutos.getTfValor().getText().replace(",", ".").trim());
+			produtoAtualizado.setValor(valor);
+			
+			if (valor < 0) {
+				throw new IllegalArgumentException();
+			}
+			
+		} catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Digite um Valor Válido \nExemplo: 10,50", "Informação", 1);
+			return;
+		} catch(IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, "Digite um valor positivo \nExemplo: 15,50", "Informação", 1);
+			return;
+		}
+		
 		produtoAtualizado.setMarca(cadastroProdutos.getTfMarca().getText());
 		produtoAtualizado.setFornecedora(cadastroProdutos.getTfFornecedora().getText());
-		produtoAtualizado.setQuantidade(Integer.parseInt(cadastroProdutos.getTfQuantEstoque().getText()));
+		
+		try {
+			int quantidade = Integer.parseInt(cadastroProdutos.getTfQuantEstoque().getText());
+			produtoAtualizado.setQuantidade(quantidade);
+			
+			if(quantidade < 0) {
+				throw new IllegalArgumentException();
+			}
+		} catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Digite Somente Números \nInteiros para a quantidade \nExemplo: 1,2,3...", "Informação", 1);
+			return;
+		} catch (IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, "A quantidade não pode ser negativa!", "Informação", 1);
+			return;
+		}
+
 		produtoAtualizado.setDescricao(cadastroProdutos.getTaDescricao().getText());
 		produtoAtualizado.setCor(cadastroProdutos.getTfCor().getText());
-		produtoAtualizado.setDataValidade(cadastroProdutos.getTfDataVal().getText());
-		produtoAtualizado.setDataFabricacao(cadastroProdutos.getTfDataFabr().getText());
-		produtoAtualizado.setCodigoBarras(Integer.parseInt(cadastroProdutos.getTfCodBarras().getText()));
+		
+		String dataValidade = validarEConverterData(cadastroProdutos.getTfDataVal().getText());
+		String dataFabricacao = validarEConverterData(cadastroProdutos.getTfDataFabr().getText());
+		
+		if(dataValidade == null && dataFabricacao == null) {
+			JOptionPane.showMessageDialog(null, "Digite datas validas! \nExemplo: dd/mm/yyyy \nou yyyy-mm-dd", "Informação", 1);
+			return;
+		}
+		
+		produtoAtualizado.setDataValidade(dataValidade);
+		produtoAtualizado.setDataFabricacao(dataFabricacao);
+
+		try {
+			int codigoBarras = Integer.parseInt(cadastroProdutos.getTfCodBarras().getText());
+			produtoAtualizado.setCodigoBarras(codigoBarras);
+			
+			if (codigoBarras < 0) {
+				throw new IllegalArgumentException();
+			}
+			
+		} catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Digite Somente Números \npara o Código de Barras \nExemplo: 1,2,3...", "Informação", 1);
+			return;
+		} catch(IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, "O código de barras não pode ser negativo!", "Informação", 1);
+			return;
+		}
 		
 		produtosDAO.atualizarProdutos(produtoAtualizado);
 		
@@ -319,6 +405,27 @@ public class ControllerProdutos extends ComponentAdapter{
 		
 	}
 	
+	public String validarEConverterData(String dataTexto) {
+
+	    try {
+
+	        DateTimeFormatter formatoEntrada =
+	                DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+	        LocalDate data =
+	                LocalDate.parse(dataTexto, formatoEntrada);
+
+	        DateTimeFormatter formatoBanco =
+	                DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+	        return data.format(formatoBanco);
+
+	    } catch (DateTimeParseException e) {
+
+	        return null;
+	    }
+	}
+	
 	//ARRUMAR
 	public void voltarVisualizarProd() {
 		
@@ -339,10 +446,5 @@ public class ControllerProdutos extends ComponentAdapter{
 				navegadorTelas.mudarTela("COMPRAS");
 				
 			}
-			
-		
-		
-		
-		
 	}
 }

@@ -5,22 +5,25 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.text.ParseException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.Button;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 
 public class Login extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField tfNome;
-	private JTextField tfCPF;
+	private JFormattedTextField tfCPF;
 	private JButton btCadastrese;
 	private JButton btEntrar;
 
@@ -48,9 +51,17 @@ public class Login extends JPanel {
 		lbCPF.setFont(new Font("Georgia", Font.PLAIN, 22));
 		add(lbCPF, "cell 1 2");
 		
-		tfCPF = new JTextField();
-		tfCPF.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(tfCPF, "cell 2 2 3 1,growx,width 25%,height 38px");
+		try {
+			MaskFormatter  mascaraCPF = new MaskFormatter("### ### ### ##");
+			mascaraCPF.setPlaceholder(" ");
+			
+			tfCPF = new JFormattedTextField(mascaraCPF);
+			tfCPF.setFont(new Font("Georgia", Font.PLAIN, 22));
+			add(tfCPF, "cell 2 2 3 1,growx,width 25%,height 38px");
+		} catch(ParseException e) {
+			e.printStackTrace();
+		}
+		
 		tfCPF.setColumns(10);
 		
 		JPanel panel = new JPanel();
@@ -123,7 +134,7 @@ public class Login extends JPanel {
 	}
 
 	public void setTfCPF(JTextField tfCPF) {
-		this.tfCPF = tfCPF;
+		this.tfCPF = (JFormattedTextField) tfCPF;
 	}
 	
 	

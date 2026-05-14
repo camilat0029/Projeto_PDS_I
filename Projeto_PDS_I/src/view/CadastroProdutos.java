@@ -8,10 +8,12 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 public class CadastroProdutos extends JPanel {
 
@@ -28,6 +30,7 @@ public class CadastroProdutos extends JPanel {
 	private JTextArea taDescricao;
 	
 	private JButton btCadastrar; 
+	private JLabel lbVoltar;
 
 	/**
 	 * Create the panel.
@@ -38,102 +41,106 @@ public class CadastroProdutos extends JPanel {
 		setMinimumSize(new Dimension(1020, 640));
 		setPreferredSize(new Dimension(1020, 640));
 		
-		setLayout(new MigLayout("fill, gap 20", "[][grow][][][][]", "[][][][][][][][][]"));
+		setLayout(new MigLayout("fill, gap 25", "[][grow][grow][][][][grow]", "[][grow][][][][][][][][][grow]"));
+		
+		lbVoltar = new JLabel("");
+		lbVoltar.setIcon(new ImageIcon(CadastroProdutos.class.getResource("/imagens/Icone_Voltar.png")));
+		add(lbVoltar, "cell 0 0");
 		
 		JLabel lbNomeProduto = new JLabel("Nome do Produto");
 		lbNomeProduto.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbNomeProduto, "cell 1 1");
+		add(lbNomeProduto, "cell 2 2");
 		
 		tfNomeProduto = new JTextField();
 		tfNomeProduto.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(tfNomeProduto, "cell 2 1 3 1,growx");
+		add(tfNomeProduto, "cell 3 2 3 1,growx");
 		tfNomeProduto.setColumns(10);
 		
 		JLabel lbValor = new JLabel("Valor");
 		lbValor.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbValor, "cell 1 2");
+		add(lbValor, "cell 2 3");
 		
 		tfValor = new JTextField();
 		tfValor.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(tfValor, "cell 2 2");
+		add(tfValor, "cell 3 3");
 		tfValor.setColumns(10);
 		
 		JLabel lbQuantEstoque = new JLabel("Quantidade Disponível");
 		lbQuantEstoque.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbQuantEstoque, "cell 3 2");
+		add(lbQuantEstoque, "cell 4 3");
 		
 		tfQuantEstoque = new JTextField();
 		tfQuantEstoque.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(tfQuantEstoque, "cell 4 2");
+		add(tfQuantEstoque, "cell 5 3");
 		tfQuantEstoque.setColumns(10);
 		
 		JLabel lbMarca = new JLabel("Marca");
 		lbMarca.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbMarca, "cell 1 3");
+		add(lbMarca, "cell 2 4");
 		
 		tfMarca = new JTextField();
 		tfMarca.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(tfMarca, "cell 2 3");
+		add(tfMarca, "cell 3 4");
 		tfMarca.setColumns(10);
 		
 		JLabel lbCor = new JLabel("Cor");
 		lbCor.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbCor, "cell 3 3");
+		add(lbCor, "cell 4 4");
 		
 		tfCor = new JTextField();
 		tfCor.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(tfCor, "cell 4 3");
+		add(tfCor, "cell 5 4");
 		tfCor.setColumns(10);
 		
 		JLabel lbCodBarras = new JLabel("Código de Barras");
 		lbCodBarras.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbCodBarras, "cell 1 4");
+		add(lbCodBarras, "cell 2 5");
 		
 		tfCodBarras = new JTextField();
 		tfCodBarras.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(tfCodBarras, "cell 2 4");
+		add(tfCodBarras, "cell 3 5");
 		tfCodBarras.setColumns(10);
 		
 		JLabel lbFornecedora = new JLabel("Fornecedora");
 		lbFornecedora.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbFornecedora, "cell 3 4");
+		add(lbFornecedora, "cell 4 5");
 		
 		tfFornecedora = new JTextField();
 		tfFornecedora.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(tfFornecedora, "cell 4 4");
+		add(tfFornecedora, "cell 5 5");
 		tfFornecedora.setColumns(10);
 		
 		JLabel lbDataFabr = new JLabel("Data de Fabricação");
 		lbDataFabr.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbDataFabr, "cell 1 5");
+		add(lbDataFabr, "cell 2 6");
 		
 		tfDataFabr = new JTextField();
 		tfDataFabr.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(tfDataFabr, "cell 2 5");
+		add(tfDataFabr, "cell 3 6");
 		tfDataFabr.setColumns(10);
 		
 		JLabel lbDataVal = new JLabel("Data de Validade");
 		lbDataVal.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbDataVal, "cell 3 5");
+		add(lbDataVal, "cell 4 6");
 		
 		tfDataVal = new JTextField();
 		tfDataVal.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(tfDataVal, "cell 4 5");
+		add(tfDataVal, "cell 5 6");
 		tfDataVal.setColumns(10);
 		
 		JLabel lbDescrição = new JLabel("Descrição");
 		lbDescrição.setFont(new Font("Georgia", Font.PLAIN, 22));
-		add(lbDescrição, "cell 1 6");
+		add(lbDescrição, "cell 2 7");
 		
 		taDescricao = new JTextArea();
 		taDescricao.setFont(new Font("Georgia", Font.PLAIN, 18));
 		taDescricao.setLineWrap(true);
 		
-		add(taDescricao, "cell 2 6 3 2,height 70px,grow");
+		add(taDescricao, "cell 3 7 3 2,height 70px,grow");
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(208, 223, 251));
-		add(panel, "cell 1 8 4 1,growx,aligny center");
+		add(panel, "cell 2 9 4 1,growx,aligny center, gapy 20");
 		
 		btCadastrar = new JButton("Cadastrar");
 		btCadastrar.setBackground(new Color(188, 199, 243));
@@ -146,6 +153,10 @@ public class CadastroProdutos extends JPanel {
 	
 	public void cadastrarProdutos(ActionListener actionListener) {
 		this.btCadastrar.addActionListener(actionListener);
+	}
+	
+	public void voltar(MouseListener mouseListener) {
+		this.lbVoltar.addMouseListener(mouseListener);
 	}
 
 	public JTextField getTfNomeProduto() {
