@@ -3,20 +3,22 @@ CREATE DATABASE IF NOT EXISTS supermercado;
 USE supermercado;
 
 CREATE TABLE IF NOT EXISTS usuarios(
-nome VARCHAR(100) NOT NULL,
+	nome VARCHAR(100) NOT NULL,
     cpf VARCHAR(15) NOT NULL PRIMARY KEY,
     funcao VARCHAR(13) NOT NULL);
    
 CREATE TABLE IF NOT EXISTS produtos(
-codigoBarras INT NOT NULL PRIMARY KEY,
+	codigoBarras INT NOT NULL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     valor FLOAT NOT NULL,
-marca VARCHAR(50) NOT NULL,
+	marca VARCHAR(50) NOT NULL,
     fornecedora VARCHAR(100) NOT NULL,
     quantidade INT NOT NULL,
     descricao VARCHAR(500) NOT NULL,
     cor VARCHAR(20) NULL,
     dataValidade DATE NOT NULL,
-    dataFabricacao DATE NULL);
-   
-select * from usuarios;
+    dataFabricacao DATE NOT NULL);
+    
+  select * from usuarios;
+  
+  select * from produtos;

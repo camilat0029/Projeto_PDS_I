@@ -4,6 +4,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -38,7 +40,13 @@ public class ControllerCarrinhoCompras extends ComponentAdapter {
 		this.telaConcluirCompra = telaConcluirCompra;
 		this.telaNotaFiscal = telaNotaFiscal;
 
-
+		this.carrinhoCompras.voltar(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				navegadorTelas.mudarTela("COMPRAS");
+			}
+		});
+		
 		this.carrinhoCompras.aumentarQtd(e -> {
 			aumentarQuantEm1();
 			valorTotal();
@@ -257,7 +265,7 @@ public class ControllerCarrinhoCompras extends ComponentAdapter {
 						telaNotaFiscal.getTaProdutos().append("Código de Barras: " + produtos.getCodigoBarras() + "\nProduto: " + produtos.getNome() +
 								"\nValor: R$ " + produtos.getValor() + "\nQuantidade Adquirida:" + carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 3) + 
 								"\nMarca: " + produtos.getMarca() + "\nFornecedora: " + produtos.getFornecedora() + "\nCor: " + produtos.getCor() + 
-								"\nData de Fabricação: " + produtos.getDataFabricacao() + "\nData de Validade: " + produtos.getDataValidade() + 
+								"\nData de Fabricação: " + formatarData(produtos.getDataFabricacao()) + "\nData de Validade: " + formatarData(produtos.getDataValidade())+ 
 								"\nDescrição: " + produtos.getDescricao() + "\n\n");
 						
 						novaQuant = produtos.getQuantidade() - Integer.parseInt(carrinhoCompras.tabCarrinhoModelo.getValueAt(i, 3).toString()) ;
@@ -269,5 +277,18 @@ public class ControllerCarrinhoCompras extends ComponentAdapter {
 			
 			navegadorTelas.mudarTela("NOTAFISCAL");
 		}
+	}
+	
+	public String formatarData(String dataBanco) {
+
+	    if (dataBanco == null || dataBanco.isBlank()) {
+	        return "";
+	    }
+
+	    LocalDate data = LocalDate.parse(dataBanco);
+
+	    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+	    return data.format(formato);
 	}
 }

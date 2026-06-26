@@ -84,10 +84,6 @@ public class ControllerLogin {
 		}
 	}
 	
-	public void deslogar() {
-		//limpar telas
-	}
-	
 	
 	
 

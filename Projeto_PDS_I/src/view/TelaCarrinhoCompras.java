@@ -130,6 +130,15 @@ public class TelaCarrinhoCompras extends JPanel {
 	public void setLbValorTotal(JLabel lbValorTotal) {
 		this.lbValorTotal = lbValorTotal;
 	}
+
+	public JLabel getLbIcone_Voltar() {
+		return lbIcone_Voltar;
+	}
+
+	public void setLbIcone_Voltar(JLabel lbIcone_Voltar) {
+		this.lbIcone_Voltar = lbIcone_Voltar;
+	}
+	
 	
 	
 }

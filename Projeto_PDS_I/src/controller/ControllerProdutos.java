@@ -34,6 +34,7 @@ public class ControllerProdutos extends ComponentAdapter{
 	private TelaVisualizarProduto visualizarProd;
 	private UsuarioDAO usuarioDAO;
 	private TelaPrincipal tela = new TelaPrincipal();
+	private boolean codigoRepetido;
 	
 	
 	public ControllerProdutos(CadastroProdutos cadastroProdutos, ProdutosDAO produtosDAO,
@@ -137,7 +138,8 @@ public class ControllerProdutos extends ComponentAdapter{
 		for (Produtos produtos2 : produtos) {
 			Object[] informacoes  = {produtos2.getCodigoBarras(), produtos2.getNome(),  String.format("%.2f", produtos2.getValor()), 
 					produtos2.getMarca(), produtos2.getFornecedora(), produtos2.getQuantidade(),
-					produtos2.getCor(), produtos2.getDataFabricacao(), produtos2.getDataValidade()};
+					produtos2.getCor(), formatarDataTabela(produtos2.getDataFabricacao()),
+				    formatarDataTabela(produtos2.getDataValidade())};
 			
 			produtosCRUD.tabelaModelo.addRow(informacoes);
 		}
@@ -175,8 +177,17 @@ public class ControllerProdutos extends ComponentAdapter{
 	
 	public void cadastrarProdutos() {
 		
+		codigoRepetido = false;
 		Produtos produtos = new Produtos(0, null, 0, null, null, 0, null, null, null, null);
 		produtosCRUD.tabelaModelo = (DefaultTableModel) produtosCRUD.tabelaProdutos.getModel();
+		
+		if(cadastroProdutos.getTfNomeProduto().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o nome do produto!", "Informação", 1);
+			return;
+		} else {
+			produtos.setNome(cadastroProdutos.getTfNomeProduto().getText());
+		}
+
 		
 		try {
 			int codigoBarras = Integer.parseInt(cadastroProdutos.getTfCodBarras().getText());
@@ -194,8 +205,11 @@ public class ControllerProdutos extends ComponentAdapter{
 			return;
 		}
 		
-		
-		produtos.setNome(cadastroProdutos.getTfNomeProduto().getText());
+		verificarCodigo();
+		if(codigoRepetido == true) {
+			JOptionPane.showMessageDialog(null, "Este código de barras já existe! Corrija o campo.", "Informação", 1);
+			return;
+		}
 		
 		
 		try {
@@ -215,8 +229,20 @@ public class ControllerProdutos extends ComponentAdapter{
 			return;
 		}
 		
-		produtos.setMarca(cadastroProdutos.getTfMarca().getText());
-		produtos.setFornecedora(cadastroProdutos.getTfFornecedora().getText());
+		if(cadastroProdutos.getTfMarca().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Informe a marca","Informação", 1);
+			return;
+		} else {
+			produtos.setMarca(cadastroProdutos.getTfMarca().getText());
+		}
+		
+		if(cadastroProdutos.getTfFornecedora().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Informe o fornecedor","Informação", 1);
+			return;
+		} else {
+			produtos.setFornecedora(cadastroProdutos.getTfFornecedora().getText());
+		}
+		
 		
 		try {
 			int quantidade = Integer.parseInt(cadastroProdutos.getTfQuantEstoque().getText());
@@ -233,14 +259,21 @@ public class ControllerProdutos extends ComponentAdapter{
 			return;
 		}
 		
-		produtos.setDescricao(cadastroProdutos.getTaDescricao().getText());
+		if(cadastroProdutos.getTaDescricao().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha a descrição", "Informação", 1);
+			return;
+		} else {
+			produtos.setDescricao(cadastroProdutos.getTaDescricao().getText());
+		}
+		
+		
 		produtos.setCor(cadastroProdutos.getTfCor().getText());
 		
 		String dataValidade = validarEConverterData(cadastroProdutos.getTfDataVal().getText());
 		String dataFabricacao = validarEConverterData(cadastroProdutos.getTfDataFabr().getText());
 		
-		if(dataValidade == null && dataFabricacao == null) {
-			JOptionPane.showMessageDialog(null, "Digite datas validas! \nExemplo: dd/mm/yyyy \nou yyyy-mm-dd", "Informação", 1);
+		if(dataValidade == null || dataFabricacao == null) {
+			JOptionPane.showMessageDialog(null, "Digite datas validas! \nExemplo: dd/mm/yyyy", "Informação", 1);
 			return;
 		}
 		
@@ -315,7 +348,13 @@ public class ControllerProdutos extends ComponentAdapter{
 		
 		Produtos produtoAtualizado = new Produtos(0, null, 0, null, null, 0, null, null, null, null);
 		
-		produtoAtualizado.setNome(cadastroProdutos.getTfNomeProduto().getText());
+		if(cadastroProdutos.getTfNomeProduto().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Informe o nome do produto", "Informação", 1);
+			return;
+		} else {
+			produtoAtualizado.setNome(cadastroProdutos.getTfNomeProduto().getText());
+			
+		}
 		
 		try {
 			
@@ -334,8 +373,19 @@ public class ControllerProdutos extends ComponentAdapter{
 			return;
 		}
 		
-		produtoAtualizado.setMarca(cadastroProdutos.getTfMarca().getText());
-		produtoAtualizado.setFornecedora(cadastroProdutos.getTfFornecedora().getText());
+		if(cadastroProdutos.getTfMarca().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Informe a marca","Informação", 1);
+			return;
+		} else {
+			produtoAtualizado.setMarca(cadastroProdutos.getTfMarca().getText());
+		}
+		
+		if(cadastroProdutos.getTfFornecedora().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Informe o fornecedor","Informação", 1);
+			return;
+		} else {
+			produtoAtualizado.setFornecedora(cadastroProdutos.getTfFornecedora().getText());
+		}
 		
 		try {
 			int quantidade = Integer.parseInt(cadastroProdutos.getTfQuantEstoque().getText());
@@ -352,14 +402,20 @@ public class ControllerProdutos extends ComponentAdapter{
 			return;
 		}
 
-		produtoAtualizado.setDescricao(cadastroProdutos.getTaDescricao().getText());
+		if(cadastroProdutos.getTaDescricao().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha a descrição", "Informação", 1);
+			return;
+		} else {
+			produtoAtualizado.setDescricao(cadastroProdutos.getTaDescricao().getText());
+		}
+	
 		produtoAtualizado.setCor(cadastroProdutos.getTfCor().getText());
 		
 		String dataValidade = validarEConverterData(cadastroProdutos.getTfDataVal().getText());
 		String dataFabricacao = validarEConverterData(cadastroProdutos.getTfDataFabr().getText());
 		
-		if(dataValidade == null && dataFabricacao == null) {
-			JOptionPane.showMessageDialog(null, "Digite datas validas! \nExemplo: dd/mm/yyyy \nou yyyy-mm-dd", "Informação", 1);
+		if(dataValidade == null || dataFabricacao == null) {
+			JOptionPane.showMessageDialog(null, "Digite datas validas! \nExemplo: dd/mm/yyyy", "Informação", 1);
 			return;
 		}
 		
@@ -409,14 +465,11 @@ public class ControllerProdutos extends ComponentAdapter{
 
 	    try {
 
-	        DateTimeFormatter formatoEntrada =
-	                DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	        DateTimeFormatter formatoEntrada = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-	        LocalDate data =
-	                LocalDate.parse(dataTexto, formatoEntrada);
+	        LocalDate data = LocalDate.parse(dataTexto, formatoEntrada);
 
-	        DateTimeFormatter formatoBanco =
-	                DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	        DateTimeFormatter formatoBanco =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	        return data.format(formatoBanco);
 
@@ -426,7 +479,6 @@ public class ControllerProdutos extends ComponentAdapter{
 	    }
 	}
 	
-	//ARRUMAR
 	public void voltarVisualizarProd() {
 		
 		Usuario usuarioLogado = ControllerLogin.usuarioLogado;
@@ -446,5 +498,34 @@ public class ControllerProdutos extends ComponentAdapter{
 				navegadorTelas.mudarTela("COMPRAS");
 				
 			}
+	}
+	
+	public String formatarDataTabela(String dataBanco) {
+
+	    if (dataBanco == null || dataBanco.isBlank()) {
+	        return "";
+	    }
+
+	    LocalDate data = LocalDate.parse(dataBanco);
+
+	    DateTimeFormatter formatoTabela = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+	    return data.format(formatoTabela);
+	}
+	
+	public void verificarCodigo() {
+		
+		List<Produtos> produtos = produtosDAO.listarProdutos();
+		
+		int codigoDigitado = Integer.parseInt(cadastroProdutos.getTfCodBarras().getText());
+		
+		for (Produtos produto : produtos) {
+			
+			if (codigoDigitado == produto.getCodigoBarras()) {
+				codigoRepetido = true;
+				break;
+			} 
+			
+		}
 	}
 }

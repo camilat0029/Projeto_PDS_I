@@ -223,22 +223,9 @@ public class ControllerCompras extends ComponentAdapter{
 	}
 	
 	public void componentShown(ComponentEvent e) {
+		produtos = produtosDAO.listarProdutos();
 		contador = 0;
-		this.primeirosProdutos();
-	}
-
-	public void primeirosProdutos() {
-		telaCompras.getLbNomeProduto().setText(produtos.get(0).getNome());
-		telaCompras.getLbValor().setText(String.valueOf("R$ " + String.format("%.2f", produtos.get(0).getValor())));
-		codigoBarrasPanel = produtos.get(0).getCodigoBarras();
-		
-		telaCompras.getLbNomeProduto2().setText(produtos.get(1).getNome());
-		telaCompras.getLbValor2().setText(String.valueOf("R$ " + String.format("%.2f", produtos.get(1).getValor())));
-		codigoBarrasPanel2 = produtos.get(1).getCodigoBarras();
-		
-		telaCompras.getLbNomeProduto3().setText(produtos.get(2).getNome());
-		telaCompras.getLbValor3().setText(String.valueOf("R$ " + String.format("%.2f", produtos.get(2).getValor())));
-		codigoBarrasPanel3 = produtos.get(2).getCodigoBarras();
+		 atualizarTela();
 	}
 	
 	public void saibaMais(int codigoBarras) {
